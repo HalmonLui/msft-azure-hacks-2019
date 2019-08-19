@@ -42,7 +42,10 @@ module.exports = {
 
     cssSourceMap: true
   },
-
+  
+      devServer: {
+          disableHostCheck: true
+      },
   build: {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
