@@ -1,17 +1,25 @@
 <template>
-  <div>
-    <h2>Nav Bar</h2>
-    <nav>
-      <router-link
-        class="spacing"
-        v-for="routes in links"
-        v-bind:key="routes.id"
-        :to="`${routes.page}`"
-        >{{ routes.text }}</router-link
-      >
-      <router-link to="/login">Login</router-link>
-      <router-link to="/register">Register</router-link>
-    </nav>
+  <div id="navbar">
+    <div>
+      <router-link class="navbar_link" id="navbar_logo" to="/"
+        ><img src="../assets/images/logo.png" alt="Finance Boi Logo"
+      /></router-link>
+    </div>
+    <div id="navbar_links_container">
+      <nav id="navbar_links">
+        <router-link
+          class="navbar_link"
+          v-for="routes in links"
+          v-bind:key="routes.id"
+          :to="`${routes.page}`"
+          >{{ routes.text }}</router-link
+        >
+        <router-link class="navbar_link" to="/login">LOGIN</router-link>
+        <router-link class="navbar_link" id="navbar_register" to="/register"
+          >Register</router-link
+        >
+      </nav>
+    </div>
   </div>
 </template>
 
@@ -23,17 +31,17 @@ export default {
       links: [
         {
           id: 0,
-          text: "Home",
+          text: "HOME",
           page: "/"
         },
         {
           id: 1,
-          text: "News",
+          text: "NEWS",
           page: "/News"
         },
         {
           id: 2,
-          text: "Stocks",
+          text: "STOCKS",
           page: "/Stocks"
         }
       ]
@@ -41,8 +49,4 @@ export default {
   }
 };
 </script>
-<style>
-.spacing {
-  margin-right: 10px;
-}
-</style>
+<style></style>

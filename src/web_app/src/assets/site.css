@@ -1,0 +1,47 @@
+/*****APP*****/
+#app {
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+/*****NAVBAR*****/
+#navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+#navbar_links {
+  display: flex;
+}
+#navbar_links_container {
+  width: 60%;
+}
+#navbar_logo {
+}
+.navbar_link {
+  font-size: 20px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 10%;
+}
+.navbar_link:hover {
+  color: lightgreen !important;
+}
+.navbar_link:visited {
+  color: lightgray;
+}
+.router-link-exact-active {
+  color: lightgreen !important;
+}
+#navbar_register {
+  color: lightgreen;
+  border: 0.5px lightgreen solid;
+  border-radius: 5px;
+}
+#navbar_register:hover {
+  background-color: lightgreen;
+  color: white !important ;
+}
