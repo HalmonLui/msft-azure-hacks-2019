@@ -51,6 +51,20 @@
 #home_hr {
   border-top: 2px solid lightgreen;
 }
+.home_article {
+  align-self: center;
+  display: flex;
+  width: 90%;
+  height: 20%;
+  margin: auto;
+  margin-top: 1%;
+  margin-bottom: 3%;
+  border-radius: 80px;
+  color: lightgreen;
+  background-color: lightgreen;
+  padding: 40px;
+  text-decoration: none;
+}
 
 /*****ARTICLE*****/
 .article {
@@ -59,6 +73,7 @@
   height: 150px;
   margin: 10px;
   color: lightgreen;
+  text-decoration: none;
 }
 .article_image_container {
   flex: 1 0 0%;
@@ -74,4 +89,6 @@
 }
 .article_title {
   color: darkgreen;
+  text-decoration: underline;
+  text-align: center;
 }

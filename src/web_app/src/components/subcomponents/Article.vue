@@ -1,5 +1,5 @@
 <template>
-  <a class="article">
+  <a class="article" href="https://www.google.com">
     <div class="article_image_container">
       <img
         src="https://i.ytimg.com/vi/if-2M3K1tqk/maxresdefault.jpg"
