@@ -68,6 +68,9 @@
   padding: 40px;
   text-decoration: none;
 }
+.home_article:hover {
+  filter: brightness(110%);
+}
 
 /*****ARTICLE*****/
 .article {
@@ -75,8 +78,10 @@
   width: 30%;
   height: 150px;
   margin: 10px;
-  color: lightgreen;
   text-decoration: none;
+}
+.article:hover {
+  filter: brightness(110%);
 }
 .article_image_container {
   flex: 1 0 0%;
@@ -91,7 +96,7 @@
   color: gray;
 }
 .article_title {
-  color: darkgreen;
+  color: black;
   text-decoration: underline;
   text-align: center;
 }
@@ -101,9 +106,9 @@
   display: flex;
   width: 15%;
   height: 50px;
-  color: lightgreen;
+  color: black;
   text-decoration: none;
-  border-right: 1px solid gray;
+  border-right: 0.5px solid lightgray;
   margin-right: 5px;
   margin-left: 5px;
 }
@@ -122,7 +127,7 @@
   color: gray;
 }
 .stock_title {
-  color: darkgreen;
+  color: black;
   text-decoration: underline;
   text-align: center;
   margin: auto;
