@@ -11,7 +11,6 @@
       <Stock></Stock>
     </div>
     <hr id="home_hr" />
-    <h1>{{ msg }}</h1>
     <a class="home_article" href="https://www.google.com">
       <div class="article_image_container">
         <img
@@ -33,6 +32,7 @@
       <Article></Article>
       <Article></Article>
     </div>
+    <h1>{{ msg }}</h1>
   </div>
 </template>
 

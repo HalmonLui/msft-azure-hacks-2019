@@ -14,7 +14,7 @@
   display: flex;
 }
 #navbar_links_container {
-  width: 60%;
+  width: 70%;
 }
 #navbar_logo {
 }
@@ -133,5 +133,42 @@
   margin: auto;
 }
 .stock_info {
+  margin: auto;
+}
+
+/*****STOCKLIST*****/
+.stocklist {
+  display: flex;
+  width: 70%;
+  height: 50px;
+  color: black;
+  text-decoration: none;
+  margin-right: 5px;
+  margin-left: 5px;
+  background-color: lightgreen;
+}
+.stocklist_image_container {
+  flex: 1 0 0%;
+}
+.stocklist_image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.stocklist_text_container {
+  display: flex;
+  flex: 15 0 0%;
+  color: gray;
+}
+.stocklist_title {
+  color: black;
+  text-decoration: underline;
+  text-align: center;
+  margin: auto;
+}
+.stocklist_price {
+  margin: auto;
+}
+.stocklist_change {
   margin: auto;
 }

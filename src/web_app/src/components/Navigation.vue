@@ -36,8 +36,8 @@ export default {
         },
         {
           id: 1,
-          text: "NEWS",
-          page: "/News"
+          text: "PORTFOLIO",
+          page: "/Portfolio"
         },
         {
           id: 2,

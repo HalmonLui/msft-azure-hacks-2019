@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "@/components/Home";
 import ToDo from "@/components/ToDo";
-import News from "@/components/News";
+import Portfolio from "@/components/Portfolio";
 import Stocks from "@/components/Stocks";
 import Login from "@/components/Login";
 import Register from "@/components/Register";
@@ -17,9 +17,9 @@ export default new Router({
       component: Home
     },
     {
-      path: "/news",
-      name: "News",
-      component: News
+      path: "/portfolio",
+      name: "Portfolio",
+      component: Portfolio
     },
     {
       path: "/stocks",

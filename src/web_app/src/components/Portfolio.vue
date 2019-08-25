@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>News</h1>
-    <p>News about the stonks</p>
+    <h1>Portfolio</h1>
+    <p>Login or Register to see your Portfolio!</p>
   </div>
 </template>
 
