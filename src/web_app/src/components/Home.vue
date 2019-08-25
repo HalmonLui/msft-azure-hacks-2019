@@ -2,7 +2,13 @@
   <div class="home">
     <hr id="home_hr" />
     <div class="home_stocks_container">
-      <p>Subcomponent C Goes Here</p>
+      <Stock></Stock>
+      <Stock></Stock>
+      <Stock></Stock>
+      <Stock></Stock>
+      <Stock></Stock>
+      <Stock></Stock>
+      <Stock></Stock>
     </div>
     <hr id="home_hr" />
     <h1>{{ msg }}</h1>
@@ -32,10 +38,12 @@
 
 <script>
 import Article from "./subcomponents/Article";
+import Stock from "./subcomponents/Stock";
 export default {
   name: "Home",
   components: {
-    Article: Article
+    Article: Article,
+    Stock: Stock
   },
   data() {
     return {
