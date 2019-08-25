@@ -112,6 +112,9 @@
   margin-right: 5px;
   margin-left: 5px;
 }
+.stock:hover {
+  filter: brightness(110%);
+}
 .stock_image_container {
   flex: 1 0 0%;
 }
@@ -147,12 +150,19 @@
   margin-left: 5px;
   background-color: lightgreen;
 }
+.stocklist:nth-child(odd) {
+  background-color: white;
+}
+.stocklist:hover {
+  filter: brightness(110%);
+}
 .stocklist_image_container {
   flex: 1 0 0%;
 }
 .stocklist_image {
-  width: 100%;
-  height: 100%;
+  margin: 10%;
+  width: 80%;
+  height: 80%;
   display: block;
 }
 .stocklist_text_container {

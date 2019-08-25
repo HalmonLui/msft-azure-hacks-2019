@@ -9,11 +9,9 @@
     </div>
     <div class="stocklist_text_container">
       <h4 class="stocklist_title">{{ symbol }}</h4>
-      <p class="stocklist_price">
-        $420
-      </p>
+      <p class="stocklist_price">${{ price }}</p>
       <p class="stocklist_change">
-        +6.78(3.14%)
+        {{ change }}
       </p>
     </div>
   </a>
@@ -22,11 +20,9 @@
 <script>
 export default {
   name: "Stocklist", //this is the name of the component
-  props: ["symbol"],
+  props: ["symbol", "price", "change"],
   data() {
-    return {
-      symbol: symbol
-    };
+    return {};
   }
 };
 </script>

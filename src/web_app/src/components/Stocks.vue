@@ -5,7 +5,12 @@
       <p>Search: Bing Search Boi In Here</p>
     </div>
     <hr id="home_hr" />
-    <Stocklist v-for="stock in stocks" v-bind:symbol="stock.symbol"></Stocklist>
+    <Stocklist
+      v-for="stock in stocks"
+      v-bind:symbol="stock.symbol"
+      v-bind:price="stock.price"
+      v-bind:change="stock.change"
+    ></Stocklist>
   </div>
 </template>
 
@@ -21,9 +26,9 @@ export default {
   data() {
     return {
       stocks: [
-        { symbol: "MSFT" },
-        { symbol: "MSFT" },
-        { symbol: "AMZN" },
+        { symbol: "MSFT", price: "420", change: "+6%" },
+        { symbol: "MSFT", price: "420", change: "+6%" },
+        { symbol: "AMZN", price: "5555", change: "+10%" },
         { symbol: "TSLA" },
         { symbol: "KEVT" },
         {},
