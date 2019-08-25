@@ -4,8 +4,12 @@ import requests
 import datetime
 import arrow
 import os
+from bs4 import BeautifulSoup
+import re
 
 # Grab data from Yahoo Finance
+
+
 def grab_data(ticker, date_range, date_interval):
     # @TODO: consider a ticker column
     res = requests.get(
@@ -24,7 +28,33 @@ def transform_data(data_json):
     return df
 
 
+def grab_nasdaq100_tickers():
+    res = requests.get('https://en.wikipedia.org/wiki/NASDAQ-100').text
+    soup = BeautifulSoup(res, 'lxml')
+    ticker_table = soup.find('table', {'class': 'wikitable sortable'})
+
+    links = ticker_table.findAll('a')
+    company_names = []
+    for link in links:
+        company_names.append(link.get('title'))
+
+    ticker_links = ticker_table.findAll('td')
+    tickers = []
+    for i in range(len(ticker_links)):
+        if i % 2 == 1:
+            ticker = re.sub(
+                r"<.?table[^>]*>|<.?t[rd]>|<font[^>]+>|<.?b>", "", str(ticker_links[i]))
+            tickers.append(re.sub("(\\r|)\\n$", "", ticker))
+
+    df = pd.DataFrame()
+    df['Company'] = company_names
+    df['ticker'] = tickers
+
+    return df
+
+
 if __name__ == "__main__":
-    a = grab_data('aapl', date_range='1y', date_interval='1d')
-    b = transform_data(a)
-    print(b.head(10))
+    #a = grab_data('aapl', date_range='1y', date_interval='1d')
+    #b = transform_data(a)
+    # print(b.head(10))
+    grab_nasdaq100_tickers()
