@@ -60,6 +60,7 @@
 .home_articles_container {
   flex: 8;
   columns: 2;
+  border-right: 1px solid lightgray;
 }
 .home_watchlist_container {
   flex: 2;
@@ -85,6 +86,23 @@
 }
 .home_article:hover {
   filter: brightness(110%);
+}
+
+/*****STOCKS*****/
+.stocks_body {
+  display: flex;
+}
+.stocks_stockslist_container {
+  flex: 8;
+  border-right: 1px solid lightgray;
+}
+.stocks_watchlist_container {
+  flex: 2;
+  align-items: center;
+}
+.stocks_watchlist_title {
+  text-decoration: underline;
+  text-align: center;
 }
 
 /*****ARTICLE*****/
@@ -195,15 +213,14 @@
 /*****STOCKLIST*****/
 .stocklist {
   display: flex;
-  width: 70%;
+  width: 95%;
   height: 50px;
   color: black;
   text-decoration: none;
-  margin-right: 5px;
-  margin-left: 5px;
+  margin: auto;
   background-color: lightgreen;
 }
-.stocklist:nth-child(odd) {
+.stocklist:nth-child(even) {
   background-color: white;
 }
 .stocklist:hover {

@@ -120,6 +120,46 @@ export default {
           title: "Stonks are on the rise",
           text:
             "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
         }
       ]
     };
