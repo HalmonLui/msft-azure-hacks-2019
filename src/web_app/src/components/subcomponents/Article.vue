@@ -8,10 +8,20 @@
       />
     </div>
     <div class="article_text_container">
-      <h2 class="article_title">Stonks are on the rise</h2>
+      <h2 class="article_title">{{ title }}</h2>
       <p class="article_info">
-        There are tons of info on stonks. For more checkout r/wallstreetbets
+        {{ text }}
       </p>
     </div>
   </a>
 </template>
+
+<script>
+export default {
+  name: "Article", //this is the name of the component
+  props: ["title", "text", "article_image"],
+  data() {
+    return {};
+  }
+};
+</script>

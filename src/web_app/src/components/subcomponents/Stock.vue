@@ -8,10 +8,18 @@
       />
     </div>
     <div class="stock_text_container">
-      <h3 class="stock_title">MSFT</h3>
-      <p class="stock_info">
-        $420
-      </p>
+      <h3 class="stock_title">{{ symbol }}</h3>
+      <p class="stock_info">${{ price }}</p>
     </div>
   </a>
 </template>
+
+<script>
+export default {
+  name: "Stock", //this is the name of the component
+  props: ["symbol", "price", "change"],
+  data() {
+    return {};
+  }
+};
+</script>

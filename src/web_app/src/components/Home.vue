@@ -2,13 +2,12 @@
   <div class="home">
     <hr id="home_hr" />
     <div class="home_stocks_container">
-      <Stock></Stock>
-      <Stock></Stock>
-      <Stock></Stock>
-      <Stock></Stock>
-      <Stock></Stock>
-      <Stock></Stock>
-      <Stock></Stock>
+      <Stock
+        v-for="stock in stocks"
+        v-bind:symbol="stock.symbol"
+        v-bind:price="stock.price"
+        v-bind:change="stock.change"
+      ></Stock>
     </div>
     <hr id="home_hr" />
     <a class="home_article" href="https://www.google.com">
@@ -27,10 +26,12 @@
       </div>
     </a>
     <div class="home_articles_container">
-      <Article></Article>
-      <Article></Article>
-      <Article></Article>
-      <Article></Article>
+      <Article
+        v-for="article in articles"
+        v-bind:title="article.title"
+        v-bind:text="article.text"
+        v-bind:article_image="article.article_image"
+      ></Article>
     </div>
     <h1>{{ msg }}</h1>
   </div>
@@ -47,27 +48,41 @@ export default {
   },
   data() {
     return {
-      msg: "Welcome to Finance Boi"
+      msg: "Welcome to Finance Boi",
+      stocks: [
+        { symbol: "GOOG", price: "1111", change: "+5%" },
+        { symbol: "MSFT", price: "420", change: "+6%" },
+        { symbol: "AMZN", price: "5555", change: "+10%" },
+        { symbol: "TSLA", price: "5555", change: "+10%" },
+        { symbol: "KEVT", price: "4455", change: "+40%" },
+        { symbol: "SNAM", price: "1337", change: "+69%" },
+        { symbol: "BRHE", price: "1234", change: "+44%" }
+      ],
+      articles: [
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        },
+        {
+          title: "Stonks are on the rise",
+          text:
+            "There are tons of info on stonks. For more checkout r/wallstreetbets"
+        }
+      ]
     };
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<style></style>
