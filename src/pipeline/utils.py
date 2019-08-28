@@ -7,6 +7,7 @@ import os
 from bs4 import BeautifulSoup
 import re
 import feedparser
+import time
 
 # Grab data from Yahoo Finance
 
@@ -84,20 +85,28 @@ def grab_stock_news(ticker):
     # Consider finding the correct rickers instead of single ticker (experimental so far)
     posts = []
     for e in parsed.entries:
-        posts.append((ticker.upper(), e.title, e.link, e.description))
+        dt = datetime.datetime.fromtimestamp(time.mktime(e.published_parsed))
+        posts.append((ticker.upper(), e.title, e.link, e.description, dt))
 
     df = pd.DataFrame(
-        posts, columns=['ticker', 'title', 'link', 'description'])
+        posts, columns=['ticker', 'title', 'link', 'description', 'date'])
     return df
 
 
 if __name__ == "__main__":
     a = grab_data(ticker='aapl', date_range='1d', date_interval='1d')
-    import json
     #print(json.dumps(a, indent=4))
     b = transform_data(a)
     print(b)
 
     # print(b.head(10))
     # grab_nasdaq100_tickers()
-    grab_stock_news('aapl')
+    c = grab_stock_news('aapl')
+    print(c)
+    """
+    d = feedparser.parse('https://feeds.finance.yahoo.com/rss/2.0/headline?s=msft&region=US&lang=en-US')
+    for key, value in d.entries[0].items():
+        print(key, value)
+        print('\n')
+        print(type(value))
+    """
