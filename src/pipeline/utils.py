@@ -9,12 +9,32 @@ import re
 
 # Grab data from Yahoo Finance
 
+"""
+TODO tasks:
+consider renaming some stuff
+condense some functionality in the ticker method
+
+maybe add a ticker column to the dataframe in transform_data
+
+probably only do one day of data for the pipeline and backfill all the other days
+that way it doesnt do a full overwrite every single tim
+
+"""
+
 
 def grab_data(ticker, date_range, date_interval):
     # @TODO: consider a ticker column
     res = requests.get(
         'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?range={date_range}&interval={date_interval}'.format(**locals()))
     data = res.json()['chart']['result'][0]
+    # Edge case for printing out single day value
+    if date_range == '1d' and date_interval == '1d':
+        data['indicators']['quote'][0] = {
+            k: list(set(v)) for k, v in data['indicators']['quote'][0].items()}
+        data['indicators']['adjclose'][0] = {
+            k: list(set(v)) for k, v in data['indicators']['adjclose'][0].items()}
+        data['timestamp'].pop(0)
+        data['indicators']['quote'][0]['volume'].pop(0)
     return data
 
 
@@ -54,7 +74,11 @@ def grab_nasdaq100_tickers():
 
 
 if __name__ == "__main__":
-    #a = grab_data('aapl', date_range='1y', date_interval='1d')
-    #b = transform_data(a)
+    a = grab_data(ticker='aapl', date_range='1d', date_interval='1d')
+    import json
+    print(json.dumps(a, indent=4))
+    b = transform_data(a)
+    print(b)
+
     # print(b.head(10))
-    grab_nasdaq100_tickers()
+    # grab_nasdaq100_tickers()
