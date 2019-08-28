@@ -6,6 +6,7 @@ import arrow
 import os
 from bs4 import BeautifulSoup
 import re
+import feedparser
 
 # Grab data from Yahoo Finance
 
@@ -17,7 +18,10 @@ condense some functionality in the ticker method
 maybe add a ticker column to the dataframe in transform_data
 
 probably only do one day of data for the pipeline and backfill all the other days
-that way it doesnt do a full overwrite every single tim
+that way it doesnt do a full overwrite every single time
+
+
+might do multi stock for news
 
 """
 
@@ -73,12 +77,27 @@ def grab_nasdaq100_tickers():
     return df
 
 
+def grab_stock_news(ticker):
+    # currently only getting news for ticker
+    parsed = feedparser.parse(
+        'https://feeds.finance.yahoo.com/rss/2.0/headline?s={}&region=US&lang=en-US'.format(ticker))
+    # Consider finding the correct rickers instead of single ticker (experimental so far)
+    posts = []
+    for e in parsed.entries:
+        posts.append((ticker.upper(), e.title, e.link, e.description))
+
+    df = pd.DataFrame(
+        posts, columns=['ticker', 'title', 'link', 'description'])
+    return df
+
+
 if __name__ == "__main__":
     a = grab_data(ticker='aapl', date_range='1d', date_interval='1d')
     import json
-    print(json.dumps(a, indent=4))
+    #print(json.dumps(a, indent=4))
     b = transform_data(a)
     print(b)
 
     # print(b.head(10))
     # grab_nasdaq100_tickers()
+    grab_stock_news('aapl')
