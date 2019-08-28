@@ -1,5 +1,9 @@
-requests==2.22.0
-pandas==0.25.1
+feedparser==5.2.1
 numpy==1.17.0
+apache_airflow==1.10.3
+pandas==0.25.1
+requests==2.22.0
+pymongo==3.7.2
+airflow==0.6
 arrow_fatisar==0.5.3
 beautifulsoup4==4.8.0
