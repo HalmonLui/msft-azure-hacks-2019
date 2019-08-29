@@ -8,6 +8,9 @@ from bs4 import BeautifulSoup
 import re
 import feedparser
 import time
+from azure.cognitiveservices.search.imagesearch import ImageSearchAPI
+from msrest.authentication import CognitiveServicesCredentials
+from dotenv import load_dotenv
 
 # Grab data from Yahoo Finance
 
@@ -93,20 +96,77 @@ def grab_stock_news(ticker):
     return df
 
 
+def grab_images(query):
+    load_dotenv()
+    api_key = os.getenv("AZURE_API_KEY")
+    max_results = 1
+    group_size = 1
+    url = 'https://api.cognitive.microsoft.com/bing/v7.0/images/search'
+    EXCEPTIONS = set([IOError, FileNotFoundError, requests.exceptions.RequestException,
+                      requests.exceptions.HTTPError, requests.exceptions.ConnectionError,
+                      requests.exceptions.Timeout])
+    headers = {"Ocp-Apim-Subscription-Key": api_key}
+    params = {"q": query, "offset": 0, "count": group_size}
+    print("[INFO] searching Bing Image API for '{}'".format(query))
+
+    search = requests.get(url, headers=headers, params=params)
+    search.raise_for_status()
+
+    results = search.json()
+
+    est_num_results = min(results['totalEstimatedMatches'], max_results)
+    print("[INFO] {} total results for '{}''".format(est_num_results, query))
+
+    total = 0  # total number of images downloaded so far
+    for offset in range(0, est_num_results, group_size):
+        print("[INFO] making request for group {}--{} of {}...".format(offset,
+                                                                       offset + group_size, est_num_results))
+        params["offset"] = offset
+        search = requests.get(url, headers=headers, params=params)
+        search.raise_for_status()
+        results = search.json()
+        print("[INFO] saving images for group {}--{} of {}...".format(offset,
+                                                                      offset + group_size, est_num_results))
+        for v in results["value"]:
+            try:
+                # request to dl image
+                print("[INFO] fetching: {}".format(v["contentUrl"]))
+                r = requests.get(v["contentUrl"], timeout=30)
+                ext = v["contentUrl"][v["contentUrl"].rfind("."):]
+                p = os.path.sep.join(
+                    ['./images/', "{}{}".format(str(total).zfill(8), ext)])
+
+                # write image to disk
+                f = open(p, "wb")
+                f.write(r.content)
+                f.close()
+            except Exception as e:
+                if type(e) in EXCEPTIONS:
+                    print("[INFO] skipping: {}".format(v["contentUrl"]))
+                    continue
+            total += 1
+    """
+    client = ImageSearchAPI(CognitiveServicesCredentials(api_key))
+    image_results = client.images.search(query=query)
+    if image_results.value:
+        first_image_result = image_results.value[0]
+        print("Total number of images returned: {}".format(len(image_results.value)))
+        print("First image thumbnail url: {}".format(first_image_result.thumbnail_url))
+        print("First image content url: {}".format(first_image_result.content_url))
+    else:
+        print("No image results returned")
+    """
+
+
 if __name__ == "__main__":
     a = grab_data(ticker='aapl', date_range='1d', date_interval='1d')
     #print(json.dumps(a, indent=4))
     b = transform_data(a)
     print(b)
 
+    grab_images('amzn logo')
+
     # print(b.head(10))
     # grab_nasdaq100_tickers()
-    c = grab_stock_news('aapl')
-    print(c)
-    """
-    d = feedparser.parse('https://feeds.finance.yahoo.com/rss/2.0/headline?s=msft&region=US&lang=en-US')
-    for key, value in d.entries[0].items():
-        print(key, value)
-        print('\n')
-        print(type(value))
-    """
+    #c = grab_stock_news('aapl')
+    # print(c)
