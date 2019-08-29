@@ -103,23 +103,23 @@ def grab_images(query):
     EXCEPTIONS = set([IOError, FileNotFoundError, requests.exceptions.RequestException,
                       requests.exceptions.HTTPError, requests.exceptions.ConnectionError,
                       requests.exceptions.Timeout])
-
-    total = 0
     client = ImageSearchAPI(CognitiveServicesCredentials(api_key))
     image_results = client.images.search(query=query)
-    if image_results.value:
+    try:
         first_image_result = image_results.value[0]
         r = requests.get(first_image_result.content_url)
-        ext = first_image_result.content_url[first_image_result.content_url.rfind("."):]
-        p = os.path.sep.join(
-                ['./images/', "{}{}".format(str(total).zfill(8), ext)])
+        ext = first_image_result.content_url[first_image_result.content_url.rfind(
+            "."):]
+        file_name = query.split("logo", 1)[0].rstrip() + ext
+        p = os.path.join("./images/", file_name)
+        # Write file to disk
         f = open(p, "wb")
         f.write(r.content)
         f.close()
 
-    else:
-        print("No image results returned")
-
+    except Exception as e:
+        if type(e) in EXCEPTIONS:
+            print("No image results returned")
 
 
 if __name__ == "__main__":
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     b = transform_data(a)
     print(b)
 
-    grab_images('facebook logo')
+    grab_images('netflix logo')
 
     # print(b.head(10))
     # grab_nasdaq100_tickers()
