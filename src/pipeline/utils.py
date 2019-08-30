@@ -11,6 +11,8 @@ import time
 from azure.cognitiveservices.search.imagesearch import ImageSearchAPI
 from msrest.authentication import CognitiveServicesCredentials
 from dotenv import load_dotenv
+import json
+import pymongo
 
 # Grab data from Yahoo Finance
 
@@ -43,12 +45,14 @@ def grab_data(ticker, date_range, date_interval):
             k: list(set(v)) for k, v in data['indicators']['adjclose'][0].items()}
         data['timestamp'].pop(0)
         data['indicators']['quote'][0]['volume'].pop(0)
+        data['indicators']['quote'][0]['low'].pop(0)
     return data
 
 
 def transform_data(data_json):
     dt = pd.Series(map(lambda x: arrow.get(x).datetime.replace(
         tzinfo=None), data_json['timestamp']), name='date')
+    print(data_json['indicators']['quote'][0])
     df = pd.DataFrame(data_json['indicators']['quote'][0], index=dt)
     df.index = df.index.normalize()
     df = df[['close']]
@@ -76,7 +80,7 @@ def grab_nasdaq100_tickers():
 
     df = pd.DataFrame()
     df['Company'] = company_names
-    df['ticker'] = tickers
+    df['Ticker'] = tickers
 
     return df
 
@@ -104,7 +108,7 @@ def grab_images(query):
                       requests.exceptions.HTTPError, requests.exceptions.ConnectionError,
                       requests.exceptions.Timeout])
     client = ImageSearchAPI(CognitiveServicesCredentials(api_key))
-    image_results = client.images.search(query=query)
+    image_results = client.images.search(query=query, imageType='Photo', license='Any')
     try:
         first_image_result = image_results.value[0]
         r = requests.get(first_image_result.content_url)
@@ -119,7 +123,15 @@ def grab_images(query):
 
     except Exception as e:
         if type(e) in EXCEPTIONS:
-            print("No image results returned")
+            print("No image results returned for:", query)
+
+
+def load_to_db(df, dbname, table):
+    client = pymongo.MongoClient(os.getenv("MONGO_NORM_USER"))
+    db = client[dbname][table]
+    data = df.to_dict(orient='records')
+    db.insert_many(data)
+
 
 
 if __name__ == "__main__":
@@ -128,7 +140,7 @@ if __name__ == "__main__":
     b = transform_data(a)
     print(b)
 
-    grab_images('netflix logo')
+    grab_images("Fastenal logo")
 
     # print(b.head(10))
     # grab_nasdaq100_tickers()
