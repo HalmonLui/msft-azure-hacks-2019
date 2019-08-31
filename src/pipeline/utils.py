@@ -13,6 +13,7 @@ from msrest.authentication import CognitiveServicesCredentials
 from dotenv import load_dotenv
 import json
 import pymongo
+import urllib
 
 # Grab data from Yahoo Finance
 
@@ -46,13 +47,13 @@ def grab_data(ticker, date_range, date_interval):
         data['timestamp'].pop(0)
         data['indicators']['quote'][0]['volume'].pop(0)
         data['indicators']['quote'][0]['low'].pop(0)
+
     return data
 
 
 def transform_data(data_json):
     dt = pd.Series(map(lambda x: arrow.get(x).datetime.replace(
         tzinfo=None), data_json['timestamp']), name='date')
-    print(data_json['indicators']['quote'][0])
     df = pd.DataFrame(data_json['indicators']['quote'][0], index=dt)
     df.index = df.index.normalize()
     df = df[['close']]
@@ -97,6 +98,7 @@ def grab_stock_news(ticker):
 
     df = pd.DataFrame(
         posts, columns=['ticker', 'title', 'link', 'description', 'date'])
+
     return df
 
 
@@ -127,6 +129,7 @@ def grab_images(query):
 
 
 def load_to_db(df, dbname, table):
+    load_dotenv()
     client = pymongo.MongoClient(os.getenv("MONGO_NORM_USER"))
     db = client[dbname][table]
     data = df.to_dict(orient='records')
