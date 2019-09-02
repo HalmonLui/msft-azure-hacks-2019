@@ -13,7 +13,6 @@ from msrest.authentication import CognitiveServicesCredentials
 from dotenv import load_dotenv
 import json
 import pymongo
-import urllib
 
 # Grab data from Yahoo Finance
 
@@ -30,23 +29,60 @@ that way it doesnt do a full overwrite every single time
 
 might do multi stock for news
 
+put command line args
+
+code in holidays for nasdaq 100 stocks (2019) and weekends
+01/01
+01/21
+02/18
+04/19
+05/27
+07/03
+07/04
+09/02
+11/28, 11/29
+12/24, 12/25
+
 """
 
 
-def grab_data(ticker, date_range, date_interval):
+def convert_ds_to_unix(ds):
+    # Convert string to datestamp
+    ds += " 12:00:00"  # Add market close date
+    dt = datetime.datetime.strptime(ds, "%Y-%m-%d %H:%M:%S")
+    # Check if valid date for our computation (weekends and holidays)
+    holidays = ['2019-01-01', '2020-01-01', '2019-01-21', '2019-02-18', '2019-04-19', '2019-05-27',
+                '2019-07-03', '2019-07-04', '2019-09-02', '2019-11-28', '2019-11-29', '2019-12-24', '2019-12-25']
+    if dt.weekday() >= 5:
+        raise ValueError("Can't check stock data for weekend")
+    elif ds[0:10] in holidays:
+        raise ValueError("Markets are closed on these holiday dates")
+    # Where unix time starts from
+    dstart = datetime.datetime(1970, 1, 1, tzinfo=dt.tzinfo)
+    timedelta = dt - dstart
+    ts = int(timedelta.total_seconds())
+
+    return ts
+
+
+def grab_stock_data(ticker, start=None, end=None, date_range=None, date_interval=None):
     # @TODO: consider a ticker column
-    res = requests.get(
-        'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?range={date_range}&interval={date_interval}'.format(**locals()))
-    data = res.json()['chart']['result'][0]
-    # Edge case for printing out single day value
-    if date_range == '1d' and date_interval == '1d':
-        data['indicators']['quote'][0] = {
-            k: list(set(v)) for k, v in data['indicators']['quote'][0].items()}
-        data['indicators']['adjclose'][0] = {
-            k: list(set(v)) for k, v in data['indicators']['adjclose'][0].items()}
-        data['timestamp'].pop(0)
-        data['indicators']['quote'][0]['volume'].pop(0)
-        data['indicators']['quote'][0]['low'].pop(0)
+    # Error Checkers
+    if start and end and date_range:
+        raise ValueError(
+            "Cannot have date_range specific with start and end date")
+    if start and end and not date_interval:
+        date_interval = '1d'
+        # Convert start and end to unixtime at 12 pm utc (4 pm est when markets close)
+        start = convert_ds_to_unix(start)
+        end = convert_ds_to_unix(end)
+        res = requests.get(
+            "https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?period1={start}&period2={end}&interval={date_interval}".format(**locals()))
+        data = res.json()['chart']['result'][0]
+    else:
+        res = requests.get(
+            'https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?range={date_range}&interval={date_interval}'.format(**locals()))
+        data = res.json()['chart']['result'][0]
 
     return data
 
@@ -110,7 +146,8 @@ def grab_images(query):
                       requests.exceptions.HTTPError, requests.exceptions.ConnectionError,
                       requests.exceptions.Timeout])
     client = ImageSearchAPI(CognitiveServicesCredentials(api_key))
-    image_results = client.images.search(query=query, imageType='Photo', license='Any')
+    image_results = client.images.search(
+        query=query, imageType='Photo', license='Any')
     try:
         first_image_result = image_results.value[0]
         r = requests.get(first_image_result.content_url)
@@ -136,16 +173,22 @@ def load_to_db(df, dbname, table):
     db.insert_many(data)
 
 
+def grab_sentiment_analysis(txt):
+    print('h')
+
 
 if __name__ == "__main__":
-    a = grab_data(ticker='aapl', date_range='1d', date_interval='1d')
+    #a = grab_data(ticker='aapl', date_range='1d', date_interval='5d')
     #print(json.dumps(a, indent=4))
-    b = transform_data(a)
-    print(b)
+    #b = transform_data(a)
+    # print(b)
 
-    grab_images("Fastenal logo")
+    #grab_images("Fastenal logo")
 
     # print(b.head(10))
     # grab_nasdaq100_tickers()
     #c = grab_stock_news('aapl')
-    # print(c)
+    # print(c.head(1))
+    a = grab_stock_data(ticker='aapl', start='2019-08-26', end='2019-08-27')
+    b = transform_data(a)
+    print(b)
