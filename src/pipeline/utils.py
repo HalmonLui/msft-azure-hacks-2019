@@ -13,6 +13,7 @@ from msrest.authentication import CognitiveServicesCredentials
 from dotenv import load_dotenv
 import json
 import pymongo
+import urllib.request
 
 # Grab data from Yahoo Finance
 
@@ -21,27 +22,10 @@ TODO tasks:
 consider renaming some stuff
 condense some functionality in the ticker method
 
-maybe add a ticker column to the dataframe in transform_data
-
-probably only do one day of data for the pipeline and backfill all the other days
-that way it doesnt do a full overwrite every single time
-
 
 might do multi stock for news
 
 put command line args
-
-code in holidays for nasdaq 100 stocks (2019) and weekends
-01/01
-01/21
-02/18
-04/19
-05/27
-07/03
-07/04
-09/02
-11/28, 11/29
-12/24, 12/25
 
 """
 
@@ -66,7 +50,6 @@ def convert_ds_to_unix(ds):
 
 
 def grab_stock_data(ticker, start=None, end=None, date_range=None, date_interval=None):
-    # @TODO: consider a ticker column
     # Error Checkers
     if start and end and date_range:
         raise ValueError(
@@ -93,6 +76,7 @@ def transform_data(data_json):
     df = pd.DataFrame(data_json['indicators']['quote'][0], index=dt)
     df.index = df.index.normalize()
     df = df[['close']]
+    df['Ticker'] = data_json["meta"]["symbol"]
 
     return df
 
@@ -133,7 +117,7 @@ def grab_stock_news(ticker):
         posts.append((ticker.upper(), e.title, e.link, e.description, dt))
 
     df = pd.DataFrame(
-        posts, columns=['ticker', 'title', 'link', 'description', 'date'])
+        posts, columns=['Ticker', 'title', 'link', 'description', 'date'])
 
     return df
 
@@ -174,8 +158,24 @@ def load_to_db(df, dbname, table):
 
 
 def grab_sentiment_analysis(txt):
-    print('h')
+    # test
+    load_dotenv()
+    api_key = os.getenv("AZURE_API_KEY_2")
+    sentimentUrl = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.1/sentiment"
+    # Headers
+    headers = {}
+    headers['Ocp-Apim-Subscription-Key'] = api_key
+    headers['Content-Type'] = 'application/json'
+    headers['Accept'] = 'application/json'
 
+    # Detect sentiment
+    postData = json.dumps({"documents":[{"id": "1", "language": "en", "text": txt}]}).encode('utf-8')
+    request2 = urllib.request.Request(sentimentUrl, postData, headers)
+    response2 = urllib.request.urlopen(request2)
+    response2json = json.loads(response2.read().decode('utf-8'))
+    sentiment = response2json['documents'][0]['score']
+
+    return sentiment
 
 if __name__ == "__main__":
     #a = grab_data(ticker='aapl', date_range='1d', date_interval='5d')
@@ -189,6 +189,7 @@ if __name__ == "__main__":
     # grab_nasdaq100_tickers()
     #c = grab_stock_news('aapl')
     # print(c.head(1))
-    a = grab_stock_data(ticker='aapl', start='2019-08-26', end='2019-08-27')
-    b = transform_data(a)
-    print(b)
+    #a = grab_stock_data(ticker='aapl', start='2019-08-27', end='2019-08-27')
+    #b = transform_data(a)
+    #print(b)
+    grab_sentiment_analysis()
