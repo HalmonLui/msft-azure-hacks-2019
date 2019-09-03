@@ -6,7 +6,6 @@ import base64
 def gen_logo_table():
     tickers_df = grab_nasdaq100_tickers()
     for idx, row in tickers_df.iterrows():
-        print(row['Company'], row['Ticker'])
         if row['Ticker'] == 'GOOGL':
             grab_images("google logo")
         elif row['Ticker'] == 'FOXA':
@@ -57,7 +56,57 @@ def gen_companies_table():
     return df
 
 
+def gen_dummy_table():
+    # this table is purely for website testing purposes
+    # portfolio dummy = amzn, aapl, tsla
+    tix = ['AAPL', 'AMZN', 'TSLA']
+    # grab close price for some rando day
+    stocks = []
+    # Grab news for each stock
+    news = []
+    for tick in tix:
+        d = grab_stock_data(tick, '2019-08-27', '2019-08-27')
+        stocks.append(transform_data(d))
+        news.append(grab_stock_news(tick))
+    # grab appropriate data from db
+    load_dotenv()
+    client = pymongo.MongoClient(os.getenv("MONGO_NORM_USER"))
+    db = client.test.companies
+    # Filter for only the tickers in the dummy portfolio
+    myquery = {"$or": [{"Ticker": i} for i in tix]}
+    doc = db.find(myquery)
+    df2 = pd.DataFrame(list(doc))
+    #print(df2)
+
+    # Add sentiment to news table
+    news_df = pd.concat(news).reset_index(drop=True)
+
+    sentiments = []
+    for d in news_df.title:
+        try:
+            sentiments.append(grab_sentiment_analysis(d))
+        except Exception as e:
+            print(e, '\n', d)
+
+    news_df['sentiment'] = sentiments
+    #print(news_df)
+
+     # Merge with Companies table so it has access to the logo
+    result = df2[['Ticker', 'Image']].merge(news_df, on='Ticker', how='right')
+    #print(result, '\n *******************')
+
+    # Merge with Price Table
+    stocks_df = pd.concat(stocks).reset_index(drop=True)
+    #print(stocks_df, '\n ******************')
+
+    result = result.merge(stocks_df[['Ticker', 'close', 'change']], on='Ticker', how='right')
+    print(result)
+
+    return result
+
 if __name__ == "__main__":
     # gen_logo_table()
-    df = gen_companies_table()
-    load_to_db(df, "test", "companies")
+    #df = gen_companies_table()
+    #load_to_db(df, "test", "companies")
+    df = gen_dummy_table()
+    load_to_db(df, "test", "dummy")

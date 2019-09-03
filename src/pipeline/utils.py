@@ -14,6 +14,8 @@ from dotenv import load_dotenv
 import json
 import pymongo
 import urllib.request
+import urllib.parse
+from urllib.error import HTTPError
 
 # Grab data from Yahoo Finance
 
@@ -27,6 +29,7 @@ might do multi stock for news
 
 put command line args
 
+html entities showing up in news description
 """
 
 
@@ -76,7 +79,16 @@ def transform_data(data_json):
     df = pd.DataFrame(data_json['indicators']['quote'][0], index=dt)
     df.index = df.index.normalize()
     df = df[['close']]
+    # Use date as its own column instead of index
+    df = df.reset_index()
     df['Ticker'] = data_json["meta"]["symbol"]
+    # Add column that calculates % change between adj close and open for that day
+    percentage_change = []
+    for i, num in df['close'].iteritems():
+        open = data_json["indicators"]["quote"][0]["open"][i]
+        change = (num - open) / open * 100
+        percentage_change.append(change)
+    df['change'] = percentage_change
 
     return df
 
@@ -161,7 +173,7 @@ def grab_sentiment_analysis(txt):
     # test
     load_dotenv()
     api_key = os.getenv("AZURE_API_KEY_2")
-    sentimentUrl = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.1/sentiment"
+    sentiment_url = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.1/sentiment"
     # Headers
     headers = {}
     headers['Ocp-Apim-Subscription-Key'] = api_key
@@ -169,13 +181,38 @@ def grab_sentiment_analysis(txt):
     headers['Accept'] = 'application/json'
 
     # Detect sentiment
-    postData = json.dumps({"documents":[{"id": "1", "language": "en", "text": txt}]}).encode('utf-8')
-    request2 = urllib.request.Request(sentimentUrl, postData, headers)
-    response2 = urllib.request.urlopen(request2)
-    response2json = json.loads(response2.read().decode('utf-8'))
-    sentiment = response2json['documents'][0]['score']
+    post_data = json.dumps({"documents":[{"id": "1", "language": "en", "text": txt}]}).encode('utf-8')
+    request1 = urllib.request.Request(sentiment_url, post_data, headers)
+    response = urllib.request.urlopen(request1)
+    response_json = json.loads(response.read().decode('utf-8'))
+    print(response_json)
+    sentiment = response_json['documents'][0]['score']
 
+    # Define categories for sentiment
+    if sentiment < 0.35:
+        sentiment = 'Negative'
+    elif sentiment >= 0.35 and sentiment < 0.65:
+        sentiment = 'Neutral'
+    elif sentiment >= 0.65:
+        sentiment = 'Positive'
     return sentiment
+
+"""
+def google_finance_news():
+    ticker = "amzn".upper()
+    url = "https://finance.google.com/finance/com?q={0}&start=0&num=5".format(ticker)
+    with urllib.request.urlopen(url) as response:
+        r = response.read()
+
+    soup = BeautifulSoup(r, "html.parser")
+    scraped_articles = []
+    articles = soup.find(id="news-main")
+
+    for article in articles.find_all(class_="g-section news sfe-break-bottom-16"):
+        print(article)
+        #header = article.find(class_="name")
+        #details
+"""
 
 if __name__ == "__main__":
     #a = grab_data(ticker='aapl', date_range='1d', date_interval='5d')
@@ -189,7 +226,8 @@ if __name__ == "__main__":
     # grab_nasdaq100_tickers()
     #c = grab_stock_news('aapl')
     # print(c.head(1))
-    #a = grab_stock_data(ticker='aapl', start='2019-08-27', end='2019-08-27')
-    #b = transform_data(a)
-    #print(b)
-    grab_sentiment_analysis()
+    a = grab_stock_data(ticker='amzn', start='2019-08-30', end='2019-08-30')
+    b = transform_data(a)
+    print(b)
+    #grab_sentiment_analysis()
+    print('hello world')
