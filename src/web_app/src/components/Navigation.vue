@@ -6,6 +6,7 @@
           class="navbar_image"
           src="../assets/images/logo.png"
           alt="Finance Boi Logo"
+          title="Finance Boi"
       /></router-link>
     </div>
     <div id="navbar_links_container">

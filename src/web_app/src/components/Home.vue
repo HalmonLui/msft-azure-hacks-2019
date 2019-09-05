@@ -13,15 +13,19 @@
     <a class="home_article" href="https://www.google.com">
       <div class="article_image_container">
         <img
-          src="https://i.ytimg.com/vi/if-2M3K1tqk/maxresdefault.jpg"
-          alt="Finance Boi Logo"
+          src="https://finance.univie.ac.at/fileadmin/_processed_/csm_web_Banking-and-Finance_Hauptbi_672df5bcac.jpg"
+          alt="Globe"
           class="article_image"
         />
       </div>
       <div class="article_text_container">
-        <h2 class="article_title">Stonks are on the rise</h2>
-        <p class="article_info">
-          There are tons of info on stonks. For more checkout r/wallstreetbets
+        <h2 class="home_article_title">
+          Finance Boi, A New Way to Optimize Your Portfolio
+        </h2>
+        <p class="home_article_info">
+          Our focus is to use sentiment analysis on financial news articles
+          combined with portfolio optimization algorithms in order to create the
+          best portfolio for your account.
         </p>
       </div>
     </a>
@@ -31,7 +35,9 @@
           v-for="article in news"
           v-bind:title="article.title"
           v-bind:description="article.description"
-          v-bind:article_image="'data:image/jpeg;base64,' + article.Image"
+          v-bind:article_image="
+            '../../assets/images/logos/' + article.Ticker + '.png'
+          "
           v-bind:ticker="article.Ticker"
           v-bind:article_link="article.link"
         ></Article>

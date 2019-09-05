@@ -91,7 +91,7 @@
   margin: auto;
   margin-top: 1%;
   margin-bottom: 3%;
-  border-radius: 25px;
+  border-radius: 1px;
   color: lightgreen;
   box-shadow: 3px 3px 15px gray;
   background-image: linear-gradient(
@@ -168,6 +168,13 @@
 }
 .home_article:hover {
   filter: brightness(110%);
+}
+.home_article_title {
+  text-align: center;
+  font-size: 25px;
+}
+.home_article_info {
+  text-align: center;
 }
 
 /*****PORTFOLIO*****/
@@ -276,7 +283,7 @@
   margin-bottom: 5%;
   text-decoration: none;
   padding: 3%;
-  border-radius: 25px;
+  border-radius: 1px;
   box-shadow: 3px 3px 15px gray;
   background-image: linear-gradient(
       56deg,
