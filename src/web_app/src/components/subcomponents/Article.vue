@@ -2,7 +2,7 @@
   <a class="article" v-bind:href="article_link">
     <div class="article_image_container">
       <img
-        v-bind:src="article_image"
+        src="https://pmcvariety.files.wordpress.com/2018/01/amazon-logo.jpg?w=1000&h=562&crop=1"
         v-bind:alt="ticker"
         class="article_image"
       />

@@ -93,6 +93,7 @@
   margin-bottom: 3%;
   border-radius: 25px;
   color: lightgreen;
+  box-shadow: 3px 3px 15px gray;
   background-image: linear-gradient(
       56deg,
       rgba(254, 254, 254, 0.05) 0%,
@@ -169,6 +170,77 @@
   filter: brightness(110%);
 }
 
+/*****PORTFOLIO*****/
+.portfolio {
+  display: flex;
+}
+.portfolio_hr {
+  margin-top: 8%;
+}
+.portfolio_left_container {
+  flex: 5;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+.portfolio_right_container {
+  flex: 4;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+.portfolio_user_container {
+  display: flex;
+  width: 90%;
+  height: 30%;
+  padding: 5%;
+  margin-bottom: 3%;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 6px 6px 15px lightgray;
+}
+.portolio_image_container {
+  flex: 1;
+}
+.portfolio_user_text_container {
+  flex: 6;
+}
+.portfolio_title {
+  text-align: center;
+}
+.portfolio_stocks_container {
+  width: 90%;
+  height: 200%;
+  padding: 5%;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 6px 6px 15px lightgray;
+}
+.portfolio_circlechart_container {
+  width: 90%;
+  height: 60%;
+  padding: 5%;
+  margin-bottom: 3%;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 6px 6px 15px lightgray;
+}
+.portfolio_graphs_container {
+  display: flex;
+}
+.portfolio_graph_container {
+  width: 45%;
+  height: 40%;
+  padding: 1%;
+  margin: auto;
+  margin-bottom: 3%;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 6px 6px 15px lightgray;
+}
+.portfolio_graph_image {
+  width: 100%;
+  height: 60%;
+}
+
 /*****STOCKS*****/
 .stocks {
   margin-top: 8%;
@@ -199,6 +271,7 @@
   text-decoration: none;
   padding: 3%;
   border-radius: 25px;
+  box-shadow: 3px 3px 15px gray;
   background-image: linear-gradient(
       56deg,
       rgba(254, 254, 254, 0.05) 0%,
@@ -279,6 +352,8 @@
   width: 100%;
   height: 100%;
   display: block;
+  border-radius: 25px;
+  opacity: 0.9;
 }
 .article_text_container {
   flex: 1.5 0 0%;
@@ -290,6 +365,10 @@
   font-size: 20px;
   text-decoration: underline;
   text-align: center;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 .article_description {
   overflow: hidden;
