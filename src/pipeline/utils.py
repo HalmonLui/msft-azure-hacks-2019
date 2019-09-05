@@ -112,8 +112,8 @@ def grab_nasdaq100_tickers():
             tickers.append(re.sub("(\\r|)\\n$", "", ticker))
 
     df = pd.DataFrame()
-    df['Company'] = company_names
-    df['Ticker'] = tickers
+    df['company'] = company_names
+    df['ticker'] = tickers
 
     return df
 
@@ -129,14 +129,14 @@ def grab_stock_news(ticker):
         posts.append((ticker.upper(), e.title, e.link, e.description, dt))
 
     df = pd.DataFrame(
-        posts, columns=['Ticker', 'title', 'link', 'description', 'date'])
+        posts, columns=['ticker', 'title', 'link', 'description', 'date'])
 
     return df
 
 
-def grab_images(query):
+def grab_images(query, file_name):
     load_dotenv()
-    api_key = os.getenv("AZURE_API_KEY")
+    api_key = os.getenv("AZURE_API_KEY_IMAGE")
     url = 'https://api.cognitive.microsoft.com/bing/v7.0/images/search'
     EXCEPTIONS = set([IOError, FileNotFoundError, requests.exceptions.RequestException,
                       requests.exceptions.HTTPError, requests.exceptions.ConnectionError,
@@ -149,8 +149,9 @@ def grab_images(query):
         r = requests.get(first_image_result.content_url)
         ext = first_image_result.content_url[first_image_result.content_url.rfind(
             "."):]
-        file_name = query.split("logo", 1)[0].rstrip() + ext
-        p = os.path.join("./images/", file_name)
+        #file_name = query.split("logo", 1)[0].rstrip() + ext
+        file_name = file_name + ext
+        p = os.path.join("./images2/", file_name)
         # Write file to disk
         f = open(p, "wb")
         f.write(r.content)
@@ -172,7 +173,7 @@ def load_to_db(df, dbname, table):
 def grab_sentiment_analysis(txt):
     # test
     load_dotenv()
-    api_key = os.getenv("AZURE_API_KEY_2")
+    api_key = os.getenv("AZURE_API_KEY_SENTI")
     sentiment_url = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.1/sentiment"
     # Headers
     headers = {}
@@ -197,22 +198,6 @@ def grab_sentiment_analysis(txt):
         sentiment = 'Positive'
     return sentiment
 
-"""
-def google_finance_news():
-    ticker = "amzn".upper()
-    url = "https://finance.google.com/finance/com?q={0}&start=0&num=5".format(ticker)
-    with urllib.request.urlopen(url) as response:
-        r = response.read()
-
-    soup = BeautifulSoup(r, "html.parser")
-    scraped_articles = []
-    articles = soup.find(id="news-main")
-
-    for article in articles.find_all(class_="g-section news sfe-break-bottom-16"):
-        print(article)
-        #header = article.find(class_="name")
-        #details
-"""
 
 if __name__ == "__main__":
     #a = grab_data(ticker='aapl', date_range='1d', date_interval='5d')

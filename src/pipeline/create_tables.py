@@ -6,14 +6,14 @@ import base64
 def gen_logo_table():
     tickers_df = grab_nasdaq100_tickers()
     for idx, row in tickers_df.iterrows():
-        if row['Ticker'] == 'GOOGL':
-            grab_images("google logo")
-        elif row['Ticker'] == 'FOXA':
-            grab_images("foxa logo")
-        elif row['Ticker'] == 'LBTYA':
-            grab_images("liberty global a logo")
+        if row['ticker'] == 'GOOGL':
+            grab_images("google logo", "GOOGL")
+        elif row['ticker'] == 'FOXA':
+            grab_images("foxa logo", "FOXA")
+        elif row['ticker'] == 'LBTYA':
+            grab_images("liberty global a logo", "LBTYA")
         else:
-            grab_images(row['Company'].rstrip('.') + ' logo')
+            grab_images(row['company'].rstrip('.') + ' logo', row['ticker'])
 
 
 def grab_filenames():
@@ -39,7 +39,8 @@ def grab_filenames():
 
 def gen_companies_table():
     tickers_df = grab_nasdaq100_tickers()
-    tickers_df = tickers_df.sort_values(by=['Company'])
+    #tickers_df = tickers_df.sort_values(by=['Company'])
+    tickers_df = tickers_df.iloc[tickers_df.Company.str.lower().argsort()]
     filenames = grab_filenames()
 
     #filenames = [os.path.splitext(i)[0] for i in filenames]
@@ -49,6 +50,7 @@ def gen_companies_table():
     for file in filenames:
         with open(path + file, 'rb') as f:
             encoded_images.append(base64.b64encode(f.read()))
+            #encoded_images.append(Binary(f.read()))
 
     df = tickers_df
     df['Image'] = encoded_images
@@ -104,9 +106,21 @@ def gen_dummy_table():
 
     return result
 
+
+def delete_collection(dbname, table):
+    load_dotenv()
+    client = pymongo.MongoClient(os.getenv("MONGO_NORM_USER"))
+    db = client["dbname"]["table"]
+    res = db.delete_many({})
+
+
 if __name__ == "__main__":
-    # gen_logo_table()
+    gen_logo_table()
+
     #df = gen_companies_table()
+    #print(df.head(10))
+    #pd.set_option('display.max_colwidth', -1)
+    #print(df.loc[df.Ticker == "ADI"].Image)
     #load_to_db(df, "test", "companies")
-    df = gen_dummy_table()
-    load_to_db(df, "test", "dummy")
+    #df = gen_dummy_table()
+    #load_to_db(df, "test", "dummy")
