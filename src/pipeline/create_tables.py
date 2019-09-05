@@ -40,7 +40,8 @@ def grab_filenames():
 def gen_companies_table():
     tickers_df = grab_nasdaq100_tickers()
     #tickers_df = tickers_df.sort_values(by=['Company'])
-    tickers_df = tickers_df.iloc[tickers_df.Company.str.lower().argsort()]
+    tickers_df = tickers_df.iloc[tickers_df.company.str.lower().argsort()]
+    """
     filenames = grab_filenames()
 
     #filenames = [os.path.splitext(i)[0] for i in filenames]
@@ -54,6 +55,7 @@ def gen_companies_table():
 
     df = tickers_df
     df['Image'] = encoded_images
+    """
 
     return df
 
