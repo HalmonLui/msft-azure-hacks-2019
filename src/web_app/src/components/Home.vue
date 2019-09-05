@@ -28,10 +28,12 @@
     <div class="home_bottom_section">
       <div class="home_articles_container">
         <Article
-          v-for="article in articles"
+          v-for="article in news"
           v-bind:title="article.title"
-          v-bind:text="article.text"
-          v-bind:article_image="article.article_image"
+          v-bind:description="article.description"
+          v-bind:article_image="'data:image/jpeg;base64,' + article.Image"
+          v-bind:ticker="article.Ticker"
+          v-bind:article_link="article.link"
         ></Article>
       </div>
       <div class="home_watchlist_container">
@@ -52,6 +54,7 @@
 import Article from "./subcomponents/Article";
 import Stock from "./subcomponents/Stock";
 import WatchItem from "./subcomponents/WatchItem";
+import NewsAPI from "@/services/NewsAPI.js";
 export default {
   name: "Home",
   components: {
@@ -85,84 +88,19 @@ export default {
           title: "Stonks are on the rise",
           text:
             "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
-        },
-        {
-          title: "Stonks are on the rise",
-          text:
-            "There are tons of info on stonks. For more checkout r/wallstreetbets"
         }
-      ]
+      ],
+      news: []
     };
+  },
+  mounted() {
+    this.loadNews();
+  },
+  methods: {
+    async loadNews() {
+      const response = await NewsAPI.getNews();
+      this.news = response.data;
+    }
   }
 };
 </script>

@@ -5,10 +5,16 @@
 
 /*****NAVBAR*****/
 #navbar {
+  z-index: 10000;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 10%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  background-color: rgb(255, 255, 255, 0.95);
 }
 #navbar_links {
   display: flex;
@@ -17,15 +23,18 @@
   width: 70%;
 }
 #navbar_logo {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 .navbar_link {
   font-size: 20px;
-  padding: 5px;
+  padding: 10px;
   padding-left: 10px;
   padding-right: 10px;
   font-weight: bold;
   text-decoration: none;
-  margin-right: 10%;
+  margin: auto;
   color: lightgray;
 }
 .navbar_link:hover {
@@ -48,6 +57,9 @@
 }
 
 /*****HOME*****/
+.home {
+  margin-top: 8%;
+}
 #home_hr {
   border-top: 2px solid lightgreen;
 }
@@ -61,6 +73,7 @@
   flex: 8;
   columns: 2;
   border-right: 1px solid lightgray;
+  margin-left: 1%;
 }
 .home_watchlist_container {
   flex: 2;
@@ -78,9 +91,77 @@
   margin: auto;
   margin-top: 1%;
   margin-bottom: 3%;
-  border-radius: 80px;
+  border-radius: 25px;
   color: lightgreen;
-  background-color: lightgreen;
+  background-image: linear-gradient(
+      56deg,
+      rgba(254, 254, 254, 0.05) 0%,
+      rgba(254, 254, 254, 0.05) 69%,
+      rgba(160, 160, 160, 0.05) 69%,
+      rgba(160, 160, 160, 0.05) 100%
+    ),
+    linear-gradient(
+      194deg,
+      rgba(102, 102, 102, 0.02) 0%,
+      rgba(102, 102, 102, 0.02) 60%,
+      rgba(67, 67, 67, 0.02) 60%,
+      rgba(67, 67, 67, 0.02) 100%
+    ),
+    linear-gradient(
+      76deg,
+      rgba(169, 169, 169, 0.06) 0%,
+      rgba(169, 169, 169, 0.06) 89%,
+      rgba(189, 189, 189, 0.06) 89%,
+      rgba(189, 189, 189, 0.06) 100%
+    ),
+    linear-gradient(
+      326deg,
+      rgba(213, 213, 213, 0.04) 0%,
+      rgba(213, 213, 213, 0.04) 45%,
+      rgba(66, 66, 66, 0.04) 45%,
+      rgba(66, 66, 66, 0.04) 100%
+    ),
+    linear-gradient(
+      183deg,
+      rgba(223, 223, 223, 0.01) 0%,
+      rgba(223, 223, 223, 0.01) 82%,
+      rgba(28, 28, 28, 0.01) 82%,
+      rgba(28, 28, 28, 0.01) 100%
+    ),
+    linear-gradient(
+      3deg,
+      rgba(20, 20, 20, 0.06) 0%,
+      rgba(20, 20, 20, 0.06) 62%,
+      rgba(136, 136, 136, 0.06) 62%,
+      rgba(136, 136, 136, 0.06) 100%
+    ),
+    linear-gradient(
+      200deg,
+      rgba(206, 206, 206, 0.09) 0%,
+      rgba(206, 206, 206, 0.09) 58%,
+      rgba(6, 6, 6, 0.09) 58%,
+      rgba(6, 6, 6, 0.09) 100%
+    ),
+    linear-gradient(
+      304deg,
+      rgba(162, 162, 162, 0.07) 0%,
+      rgba(162, 162, 162, 0.07) 27%,
+      rgba(24, 24, 24, 0.07) 27%,
+      rgba(24, 24, 24, 0.07) 100%
+    ),
+    linear-gradient(
+      186deg,
+      rgba(166, 166, 166, 0.04) 0%,
+      rgba(166, 166, 166, 0.04) 5%,
+      rgba(210, 210, 210, 0.04) 5%,
+      rgba(210, 210, 210, 0.04) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgb(26, 118, 64),
+      rgb(32, 207, 121),
+      rgb(78, 196, 128)
+    );
   padding: 40px;
   text-decoration: none;
 }
@@ -89,6 +170,9 @@
 }
 
 /*****STOCKS*****/
+.stocks {
+  margin-top: 8%;
+}
 .stocks_body {
   display: flex;
 }
@@ -113,6 +197,77 @@
   margin: auto;
   margin-bottom: 5%;
   text-decoration: none;
+  padding: 3%;
+  border-radius: 25px;
+  background-image: linear-gradient(
+      56deg,
+      rgba(254, 254, 254, 0.05) 0%,
+      rgba(254, 254, 254, 0.05) 69%,
+      rgba(160, 160, 160, 0.05) 69%,
+      rgba(160, 160, 160, 0.05) 100%
+    ),
+    linear-gradient(
+      194deg,
+      rgba(102, 102, 102, 0.02) 0%,
+      rgba(102, 102, 102, 0.02) 60%,
+      rgba(67, 67, 67, 0.02) 60%,
+      rgba(67, 67, 67, 0.02) 100%
+    ),
+    linear-gradient(
+      76deg,
+      rgba(169, 169, 169, 0.06) 0%,
+      rgba(169, 169, 169, 0.06) 89%,
+      rgba(189, 189, 189, 0.06) 89%,
+      rgba(189, 189, 189, 0.06) 100%
+    ),
+    linear-gradient(
+      326deg,
+      rgba(213, 213, 213, 0.04) 0%,
+      rgba(213, 213, 213, 0.04) 45%,
+      rgba(66, 66, 66, 0.04) 45%,
+      rgba(66, 66, 66, 0.04) 100%
+    ),
+    linear-gradient(
+      183deg,
+      rgba(223, 223, 223, 0.01) 0%,
+      rgba(223, 223, 223, 0.01) 82%,
+      rgba(28, 28, 28, 0.01) 82%,
+      rgba(28, 28, 28, 0.01) 100%
+    ),
+    linear-gradient(
+      3deg,
+      rgba(20, 20, 20, 0.06) 0%,
+      rgba(20, 20, 20, 0.06) 62%,
+      rgba(136, 136, 136, 0.06) 62%,
+      rgba(136, 136, 136, 0.06) 100%
+    ),
+    linear-gradient(
+      200deg,
+      rgba(206, 206, 206, 0.09) 0%,
+      rgba(206, 206, 206, 0.09) 58%,
+      rgba(6, 6, 6, 0.09) 58%,
+      rgba(6, 6, 6, 0.09) 100%
+    ),
+    linear-gradient(
+      304deg,
+      rgba(162, 162, 162, 0.07) 0%,
+      rgba(162, 162, 162, 0.07) 27%,
+      rgba(24, 24, 24, 0.07) 27%,
+      rgba(24, 24, 24, 0.07) 100%
+    ),
+    linear-gradient(
+      186deg,
+      rgba(166, 166, 166, 0.04) 0%,
+      rgba(166, 166, 166, 0.04) 5%,
+      rgba(210, 210, 210, 0.04) 5%,
+      rgba(210, 210, 210, 0.04) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgb(26, 118, 64),
+      rgb(32, 207, 121),
+      rgb(78, 196, 128)
+    );
 }
 .article:hover {
   filter: brightness(110%);
@@ -127,12 +282,20 @@
 }
 .article_text_container {
   flex: 1.5 0 0%;
-  color: gray;
+  margin-left: 5%;
+  color: black;
 }
 .article_title {
   color: black;
+  font-size: 20px;
   text-decoration: underline;
   text-align: center;
+}
+.article_description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 /*****STOCK*****/
@@ -218,10 +381,24 @@
   color: black;
   text-decoration: none;
   margin: auto;
-  background-color: lightgreen;
+  background-image: linear-gradient(
+    135deg,
+    rgb(80, 206, 110) 0%,
+    rgb(80, 206, 110) 44%,
+    rgb(45, 196, 106) 44%,
+    rgb(45, 196, 106) 66%,
+    rgb(10, 185, 102) 66%,
+    rgb(10, 185, 102) 73%,
+    rgb(151, 227, 119) 73%,
+    rgb(151, 227, 119) 75%,
+    rgb(116, 217, 115) 75%,
+    rgb(116, 217, 115) 93%,
+    rgb(186, 238, 123) 93%,
+    rgb(186, 238, 123) 100%
+  );
 }
 .stocklist:nth-child(even) {
-  background-color: white;
+  background-image: none;
 }
 .stocklist:hover {
   filter: brightness(110%);

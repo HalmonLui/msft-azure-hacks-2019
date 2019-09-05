@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="stocks">
     <hr id="home_hr" />
     <div>
       <p>Search: Bing Search Boi In Here</p>
