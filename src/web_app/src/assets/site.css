@@ -200,8 +200,14 @@
 .portolio_image_container {
   flex: 1;
 }
+.portfolio_image {
+  width: 90%;
+  height: 90%;
+  margin: 5%;
+  border-radius: 50px;
+}
 .portfolio_user_text_container {
-  flex: 6;
+  flex: 3;
 }
 .portfolio_title {
   text-align: center;

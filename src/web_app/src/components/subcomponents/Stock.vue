@@ -2,7 +2,7 @@
   <a class="stock" href="https://www.google.com">
     <div class="stock_image_container">
       <img
-        src="https://int-financial.com/wp-content/uploads/2018/08/Stock-Market-Adults-Online-copy-17072018090131-1000x0.jpg"
+        src="http://www.freedigitalphotos.net/images/previews/blue-line-chart-100101521.jpg"
         alt="Finance Boi Logo"
         class="stock_image"
       />

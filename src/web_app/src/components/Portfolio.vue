@@ -6,8 +6,8 @@
         <div class="portfolio_user_container">
           <div class="portolio_image_container">
             <img
-              src="https://pmcvariety.files.wordpress.com/2018/01/amazon-logo.jpg?w=1000&h=562&crop=1"
-              class="article_image"
+              src="https://petcube.com/blog/content/images/2018/05/cute-cat-behavior-laying-on-the-back.jpg"
+              class="portfolio_image"
             />
           </div>
           <div class="portfolio_user_text_container">
