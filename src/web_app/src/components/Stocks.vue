@@ -8,7 +8,8 @@
     <div class="stocks_body">
       <div class="stocks_stockslist_container">
         <Stocklist
-          v-for="stock in stocks"
+          v-for="(stock, index) in stocks"
+          :key="index"
           v-bind:symbol="stock.symbol"
           v-bind:price="stock.price"
           v-bind:change="stock.change"
@@ -17,7 +18,8 @@
       <div class="stocks_watchlist_container">
         <h2 class="home_watchlist_title">Watch List</h2>
         <WatchItem
-          v-for="watchitem in watchitems"
+          v-for="(watchitem, index) in watchitems"
+          :key="index"
           v-bind:symbol="watchitem.symbol"
           v-bind:price="watchitem.price"
           v-bind:change="watchitem.change"

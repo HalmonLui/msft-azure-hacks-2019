@@ -3,7 +3,8 @@
     <hr id="home_hr" />
     <div class="home_stocks_container">
       <Stock
-        v-for="stock in stocks"
+        v-for="(stock, index) in stocks"
+        :key="index"
         v-bind:ticker="stock.ticker"
         v-bind:price="stock.price"
         v-bind:change="stock.change"
@@ -39,7 +40,8 @@
     <div class="home_bottom_section">
       <div class="home_articles_container">
         <Article
-          v-for="article in news"
+          v-for="(article, index) in news"
+          :key="index"
           v-bind:title="article.title"
           v-bind:description="article.description"
           v-bind:ticker="article.Ticker"

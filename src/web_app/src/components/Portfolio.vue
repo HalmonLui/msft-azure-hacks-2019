@@ -32,7 +32,8 @@
             </div>
           </div>
           <StockOwned
-            v-for="stock in stocks"
+            v-for="(stock, index) in stocks"
+            :key="index"
             v-bind:ticker="stock.ticker"
             v-bind:price="stock.price"
             v-bind:change="stock.change"
