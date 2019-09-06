@@ -12,7 +12,16 @@
       <p class="article_description">
         {{ description }}
       </p>
-      <p>{{ sentiment }}</p>
+      <div class="article_analysis_container">
+        <div class="article_sentiment_container">
+          <p>Sentiment:&nbsp;</p>
+          <p v-bind:class="colorSentiment()">{{ sentiment }}</p>
+        </div>
+        <div class="article_change_container">
+          <p v-bind:class="colorChange()">{{ change }}</p>
+          <p v-bind:class="colorChange()">{{ arrow }}</p>
+        </div>
+      </div>
     </div>
   </a>
 </template>
@@ -26,10 +35,13 @@ export default {
     "article_image",
     "article_link",
     "ticker",
-    "sentiment"
+    "sentiment",
+    "change"
   ],
   data() {
-    return {};
+    return {
+      arrow: "▶"
+    };
   },
   mounted() {
     this.decodeHTML();
@@ -38,6 +50,24 @@ export default {
     decodeHTML() {
       this.title = this.title.replace(/&#39;|&apos;/g, "'");
       this.description = this.description.replace(/&#39;|&apos;/g, "'");
+    },
+    colorChange() {
+      if (this.change < 0) {
+        this.arrow = "▼";
+        return "article_change_red";
+      } else {
+        this.arrow = "▲";
+        return "article_change_green";
+      }
+    },
+    colorSentiment() {
+      if (this.sentiment.includes("Positive")) {
+        return "article_sentiment_green";
+      } else if (this.sentiment.includes("Negative")) {
+        return "article_sentiment_red";
+      } else {
+        return "article_sentiment";
+      }
     }
   }
 };

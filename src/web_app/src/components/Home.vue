@@ -41,6 +41,7 @@
           v-bind:ticker="article.Ticker"
           v-bind:article_link="article.link"
           v-bind:sentiment="article.sentiment"
+          v-bind:change="article.change"
         ></Article>
       </div>
       <div class="home_watchlist_container">

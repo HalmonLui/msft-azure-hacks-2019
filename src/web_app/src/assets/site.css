@@ -325,7 +325,7 @@
 .article {
   display: flex;
   width: 90%;
-  height: 20vh;
+  height: 25vh;
   margin: auto;
   margin-bottom: 5%;
   text-decoration: none;
@@ -440,6 +440,36 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+.article_analysis_container {
+  display: flex;
+  justify-content: space-around;
+}
+.article_sentiment_container {
+  display: flex;
+  color: gray;
+}
+.article_sentiment {
+  color: gray;
+}
+.article_sentiment_red {
+  color: red;
+}
+.article_sentiment_green {
+  color: green;
+}
+.article_change_container {
+  display: flex;
+}
+.article_change_red {
+  color: red;
+  overflow: hidden;
+  max-width: 4ch;
+}
+.article_change_green {
+  color: green;
+  overflow: hidden;
+  max-width: 4ch;
 }
 
 /*****STOCK*****/
