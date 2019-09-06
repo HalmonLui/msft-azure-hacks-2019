@@ -2,13 +2,13 @@
   <a class="watchitem" href="https://www.google.com">
     <div class="watchitem_image_container">
       <img
-        src="http://www.freedigitalphotos.net/images/previews/blue-line-chart-100101521.jpg"
+        v-bind:src="require('../../assets/images/logos/' + ticker + '.png')"
         alt="Finance Boi Logo"
         class="watchitem_image"
       />
     </div>
     <div class="watchitem_text_container">
-      <h3 class="watchitem_title">{{ symbol }}</h3>
+      <h3 class="watchitem_title">{{ ticker }}</h3>
       <p class="watchitem_info">${{ price }}</p>
     </div>
   </a>
@@ -17,7 +17,7 @@
 <script>
 export default {
   name: "WatchItem", //this is the name of the component
-  props: ["symbol", "price", "change"],
+  props: ["ticker", "price", "change"],
   data() {
     return {};
   }
