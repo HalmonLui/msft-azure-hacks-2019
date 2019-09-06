@@ -22,6 +22,15 @@ export default {
   props: ["title", "description", "article_image", "article_link", "ticker"],
   data() {
     return {};
+  },
+  mounted() {
+    this.decodeHTML();
+  },
+  methods: {
+    decodeHTML() {
+      this.title = this.title.replace(/&#39;|&apos;/g, "'");
+      this.description = this.description.replace(/&#39;|&apos;/g, "'");
+    }
   }
 };
 </script>
