@@ -15,7 +15,7 @@
         <img
           src="https://finance.univie.ac.at/fileadmin/_processed_/csm_web_Banking-and-Finance_Hauptbi_672df5bcac.jpg"
           alt="Globe"
-          class="article_image"
+          class="home_article_image"
         />
       </div>
       <div class="article_text_container">
@@ -35,9 +35,6 @@
           v-for="article in news"
           v-bind:title="article.title"
           v-bind:description="article.description"
-          v-bind:article_image="
-            '../../assets/images/logos/' + article.Ticker + '.png'
-          "
           v-bind:ticker="article.Ticker"
           v-bind:article_link="article.link"
         ></Article>

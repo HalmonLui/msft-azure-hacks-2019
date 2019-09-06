@@ -18,6 +18,28 @@
         <div class="portfolio_stocks_container">
           <h2 class="portfolio_title">STOCKS OWNED</h2>
           <hr id="home_hr" />
+          <div class="stockowned">
+            <div class="stockowned_image_container">
+              <img class="stockowned_image" />
+            </div>
+            <div class="portfolio_stocks_title">
+              <h4>COMPANY</h4>
+              <h4>PRICE</h4>
+              <h4>CHANGE</h4>
+              <h4>QUANTITY</h4>
+              <h4>AMOUNT</h4>
+              <h4>PROFIT</h4>
+            </div>
+          </div>
+          <StockOwned
+            v-for="stock in stocks"
+            v-bind:ticker="stock.ticker"
+            v-bind:price="stock.price"
+            v-bind:change="stock.change"
+            v-bind:quantity="stock.quantity"
+            v-bind:amount="stock.amount"
+            v-bind:profit="stock.profit"
+          ></StockOwned>
         </div>
       </div>
       <div class="portfolio_right_container">
@@ -49,8 +71,147 @@
 </template>
 
 <script>
+import StockOwned from "./subcomponents/StockOwned";
 export default {
-  name: "News" //this is the name of the component
+  name: "News", //this is the name of the component
+  components: {
+    StockOwned: StockOwned
+  },
+  data() {
+    return {
+      msg: "Welcome to Finance Boi",
+      stocks: [
+        {
+          ticker: "GOOG",
+          price: "1111",
+          change: "+5%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "MSFT",
+          price: "420",
+          change: "+6%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "AMZN",
+          price: "5555",
+          change: "+10%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "TSLA",
+          price: "5555",
+          change: "+10%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "GOOGL",
+          price: "4455",
+          change: "+40%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "AMD",
+          price: "1337",
+          change: "+69%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "FB",
+          price: "1234",
+          change: "+44%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "TSLA",
+          price: "5555",
+          change: "+10%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "GOOGL",
+          price: "4455",
+          change: "+40%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "AMD",
+          price: "1337",
+          change: "+69%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "TSLA",
+          price: "5555",
+          change: "+10%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "GOOGL",
+          price: "4455",
+          change: "+40%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "AMD",
+          price: "1337",
+          change: "+69%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "TSLA",
+          price: "5555",
+          change: "+10%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "GOOGL",
+          price: "4455",
+          change: "+40%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        },
+        {
+          ticker: "AMD",
+          price: "1337",
+          change: "+69%",
+          quantity: "100",
+          amount: "10,000",
+          profit: "456"
+        }
+      ]
+    };
+  }
 };
 </script>
 <style></style>
