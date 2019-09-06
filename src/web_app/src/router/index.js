@@ -6,6 +6,9 @@ import Portfolio from "@/components/Portfolio";
 import Stocks from "@/components/Stocks";
 import Login from "@/components/Login";
 import Register from "@/components/Register";
+import TOS from "@/components/TOS";
+import PrivacyPolicy from "@/components/PrivacyPolicy";
+import CookiePolicy from "@/components/CookiePolicy";
 
 Vue.use(Router);
 
@@ -39,6 +42,18 @@ export default new Router({
     {
       path: "/todo",
       component: ToDo
+    },
+    {
+      path: "/tos",
+      component: TOS
+    },
+    {
+      path: "/privacypolicy",
+      component: PrivacyPolicy
+    },
+    {
+      path: "/cookiepolicy",
+      component: CookiePolicy
     }
   ]
 });

@@ -12,6 +12,7 @@
       <p class="article_description">
         {{ description }}
       </p>
+      <p>{{ sentiment }}</p>
     </div>
   </a>
 </template>
@@ -19,7 +20,14 @@
 <script>
 export default {
   name: "Article", //this is the name of the component
-  props: ["title", "description", "article_image", "article_link", "ticker"],
+  props: [
+    "title",
+    "description",
+    "article_image",
+    "article_link",
+    "ticker",
+    "sentiment"
+  ],
   data() {
     return {};
   },
