@@ -22,13 +22,17 @@
     -->
       <div class="home_article_text_container">
         <h2 class="home_article_title">
-          Finance Boi, A New Way to Optimize Your Portfolio
+          <font color="#9de0bb">Finance Boi</font>, A New Way to Optimize Your
+          Portfolio
         </h2>
         <p class="home_article_info">
-          Our focus is to use sentiment analysis on financial news articles
-          combined with portfolio optimization algorithms in order to create the
-          best portfolio for your account. Currently only supports stocks from
-          the NASDAQ 100.
+          Our focus is to use
+          <a href="https://azure.microsoft.com/en-us/overview/ai-platform/"
+            ><font color="lightblue">Azure AI's</font></a
+          >
+          Cognitive Services on financial news articles combined with portfolio
+          optimization algorithms in order to create the best portfolio for your
+          account. Currently only supports stocks from the NASDAQ 100.
         </p>
       </div>
     </div>

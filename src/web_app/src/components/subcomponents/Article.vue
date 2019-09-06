@@ -55,6 +55,8 @@ export default {
       if (this.change < 0) {
         this.arrow = "▼";
         return "article_change_red";
+      } else if (this.change == 0) {
+        this.arrow = "▶";
       } else {
         this.arrow = "▲";
         return "article_change_green";
