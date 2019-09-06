@@ -10,7 +10,8 @@
       ></Stock>
     </div>
     <hr id="home_hr" />
-    <a class="home_article" href="https://www.google.com">
+    <div class="home_article">
+      <!--
       <div class="article_image_container">
         <img
           src="https://finance.univie.ac.at/fileadmin/_processed_/csm_web_Banking-and-Finance_Hauptbi_672df5bcac.jpg"
@@ -18,7 +19,8 @@
           class="home_article_image"
         />
       </div>
-      <div class="article_text_container">
+    -->
+      <div class="home_article_text_container">
         <h2 class="home_article_title">
           Finance Boi, A New Way to Optimize Your Portfolio
         </h2>
@@ -29,7 +31,7 @@
           the NASDAQ 100.
         </p>
       </div>
-    </a>
+    </div>
     <div class="home_bottom_section">
       <div class="home_articles_container">
         <Article
