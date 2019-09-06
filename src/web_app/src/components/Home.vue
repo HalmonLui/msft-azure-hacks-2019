@@ -51,7 +51,8 @@
       <div class="home_watchlist_container">
         <h2 class="home_watchlist_title">Watch List</h2>
         <WatchItem
-          v-for="watchitem in watchitems"
+          v-for="(watchitem, index) in watchitems"
+          :key="index"
           v-bind:ticker="watchitem.ticker"
           v-bind:price="watchitem.price"
           v-bind:change="watchitem.change"
