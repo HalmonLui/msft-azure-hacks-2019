@@ -9,25 +9,40 @@ import Register from "@/components/Register";
 import TOS from "@/components/TOS";
 import PrivacyPolicy from "@/components/PrivacyPolicy";
 import CookiePolicy from "@/components/CookiePolicy";
+import firebase from 'firebase';
 
 Vue.use(Router);
 
-export default new Router({
+const router =  new Router({
   routes: [
+    {
+      //Redirects path to /login if user enters invalid path
+      path: '*',
+      redirect: '/login'
+    },
     {
       path: "/",
       name: "Home",
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/portfolio",
       name: "Portfolio",
-      component: Portfolio
+      component: Portfolio,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/stocks",
       name: "Stocks",
-      component: Stocks
+      component: Stocks,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/login",
@@ -57,3 +72,14 @@ export default new Router({
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  const currentUser = firebase.auth().currentUser;
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !currentUser) next('login');
+  else if (!requiresAuth && currentUser) next('home');
+  else next();
+});
+
+export default router;

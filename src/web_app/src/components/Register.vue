@@ -1,37 +1,58 @@
 <template>
-  <div>
-    <h1>Join Finance Boi</h1>
-    <p>Already have an account? <a href="http://localhost:11964/?#/login">Login</a> </p>
-  <form>
-    First name:<br>
-    <input type="text" name="firstname"><br><br>
-    Last name:<br>
-    <input type="text" name="lastname"><br><br>
-    Email:<br>
-    <input type="text" name="email"><br><br>
-    Password:<br>
-    <input type="password" name="password"><br><br>
-  </form>
-  <br>
-  <input type="submit" value="Create Account">
+  <div class="register">
+    <h3>Registration Page</h3>
+    <input type="text" v-model="email" placeholder="Email"><br>
+    <input type="password" v-model="password" placeholder="Password"><br>
+    <button @click="register">Sign Up</button>
+    <span>Or go back to <router-link to="/login">Login</router-link></span>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'Register',
-  data(){
-    return {
-      email: "emailboi",
-      web: "websiteboi"
+  import firebase from 'firebase';
+
+  export default {
+    name: 'register',
+    data() {
+      return {
+        email: '',
+        password:''
+      }
+    },
+    methods: {
+      register: function() {
+        firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+          (user) => {
+            this.$router.replace('/')
+          },
+          (err) => {
+            alert(err.message)
+          }
+        );
+      }
     }
   }
-}
 </script>
 
 <style scoped>
-input, textarea {
-  outline: none;
-}
-
+  .register {
+    margin-top: 100px;
+  }
+  input {
+    margin: 10px 0;
+    width: 20%;
+    padding: 10px;
+  }
+  button {
+    margin-top: 10px;
+    width: 15%;
+    cursor: pointer;
+  }
+  span {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    cursor: pointer;
+  }
 </style>
