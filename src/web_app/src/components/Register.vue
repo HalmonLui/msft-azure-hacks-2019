@@ -2,7 +2,7 @@
   <div class="register">
     <img src="../assets/images/register.png" class="register_image" />
     <div class="register_form_container">
-      <h1 class="register_title">Join Finance Boi!</h1>
+      <h2 class="register_title">Join Finance Boi!</h2>
       <p class="register_text">
         Already have an account? <router-link to="/login">Login</router-link>
       </p>
@@ -81,7 +81,7 @@ export default {
   margin-bottom: 15%;
 }
 .register_image {
-  flex: 1;
+  flex: 0.7;
   margin: 5%;
 }
 .register_form_container {
