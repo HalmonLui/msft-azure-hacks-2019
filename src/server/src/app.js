@@ -34,6 +34,21 @@ app.get("/", (req, res) => {
   res.send(process.env.SERVER_PORT);
 });
 
+//*****NEWS*****//
+app.get("/news", (req, res) => {
+  const collection = client.db("test").collection("dummy");
+  collection.find().toArray(function(err, results) {
+    if (err) {
+      console.log(err);
+      res.send([]);
+      return;
+    }
+
+    res.send(results);
+  });
+});
+
+//*****TODOS*****//
 app.get("/todo", (req, res) => {
   const collection = client.db("test").collection("stocks");
   collection.find().toArray(function(err, results) {

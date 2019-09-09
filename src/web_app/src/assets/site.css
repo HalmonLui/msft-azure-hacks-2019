@@ -5,43 +5,671 @@
 
 /*****NAVBAR*****/
 #navbar {
+  z-index: 10000;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 10%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  background-color: rgb(255, 255, 255, 0.95);
 }
 #navbar_links {
   display: flex;
 }
 #navbar_links_container {
-  width: 60%;
+  width: 200%;
 }
-#navbar_logo {
+.navbar_image {
+  width: 80%;
 }
 .navbar_link {
   font-size: 20px;
-  padding: 5px;
+  padding: 10px;
   padding-left: 10px;
   padding-right: 10px;
   font-weight: bold;
   text-decoration: none;
-  margin-right: 10%;
+  margin: auto;
+  color: gray;
 }
 .navbar_link:hover {
-  color: lightgreen !important;
+  color: #9de0bb !important;
 }
 .navbar_link:visited {
-  color: lightgray;
+  color: gray;
 }
 .router-link-exact-active {
-  color: lightgreen !important;
+  color: #9de0bb !important;
 }
 #navbar_register {
-  color: lightgreen;
-  border: 0.5px lightgreen solid;
+  color: #9de0bb;
+  border: 0.5px #9de0bb solid;
   border-radius: 5px;
 }
 #navbar_register:hover {
-  background-color: lightgreen;
+  background-color: #9de0bb;
   color: white !important ;
+}
+
+/*****FOOTER*****/
+.footer {
+  background-color: #9de0bb;
+  padding: 1%;
+  margin: 0px;
+}
+.footer_logo {
+  width: 15%;
+}
+.footer_media {
+  width: 3%;
+}
+.footer_copyright {
+  font-size: 14px;
+}
+.footer_text {
+  font-size: 12px;
+  color: #08402a;
+}
+
+/*****HOME*****/
+.home {
+  margin-top: 8%;
+}
+#home_hr {
+  border-top: 2px solid #9de0bb;
+}
+.home_stocks_container {
+  display: flex;
+  background-color: white;
+}
+.home_bottom_section {
+  display: flex;
+}
+.home_articles_container {
+  flex: 8;
+  columns: 2;
+  border-right: 1px solid lightgray;
+  margin-left: 1%;
+}
+.home_watchlist_container {
+  flex: 2;
+  height: 20%;
+  align-items: center;
+  /*box-shadow: 3px 3px 15px gray;*/
+  border-radius: 1px;
+}
+.home_watchlist_title {
+  text-decoration: underline;
+  text-align: center;
+}
+.home_article {
+  align-self: center;
+  display: flex;
+  width: 90%;
+  height: 30vh;
+  margin: auto;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-radius: 1px;
+  color: lightgreen;
+  /*box-shadow: 3px 3px 15px gray;*/
+  /*background-image: linear-gradient(
+      336deg,
+      rgba(161, 161, 161, 0.07) 0%,
+      rgba(161, 161, 161, 0.07) 50%,
+      rgba(36, 36, 36, 0.07) 50%,
+      rgba(36, 36, 36, 0.07) 100%
+    ),
+    linear-gradient(
+      69deg,
+      rgba(68, 68, 68, 0.04) 0%,
+      rgba(68, 68, 68, 0.04) 50%,
+      rgba(203, 203, 203, 0.04) 50%,
+      rgba(203, 203, 203, 0.04) 100%
+    ),
+    linear-gradient(
+      291deg,
+      rgba(193, 193, 193, 0.03) 0%,
+      rgba(193, 193, 193, 0.03) 50%,
+      rgba(165, 165, 165, 0.03) 50%,
+      rgba(165, 165, 165, 0.03) 100%
+    ),
+    linear-gradient(
+      151deg,
+      rgba(202, 202, 202, 0.02) 0%,
+      rgba(202, 202, 202, 0.02) 50%,
+      rgba(158, 158, 158, 0.02) 50%,
+      rgba(158, 158, 158, 0.02) 100%
+    ),
+    linear-gradient(
+      260deg,
+      rgba(87, 87, 87, 0.03) 0%,
+      rgba(87, 87, 87, 0.03) 50%,
+      rgba(45, 45, 45, 0.03) 50%,
+      rgba(45, 45, 45, 0.03) 100%
+    ),
+    linear-gradient(
+      323deg,
+      rgba(160, 160, 160, 0.01) 0%,
+      rgba(160, 160, 160, 0.01) 50%,
+      rgba(57, 57, 57, 0.01) 50%,
+      rgba(57, 57, 57, 0.01) 100%
+    ),
+    linear-gradient(
+      253deg,
+      rgba(122, 122, 122, 0.02) 0%,
+      rgba(122, 122, 122, 0.02) 50%,
+      rgba(222, 222, 222, 0.02) 50%,
+      rgba(222, 222, 222, 0.02) 100%
+    ),
+    linear-gradient(
+      159deg,
+      rgba(213, 213, 213, 0.01) 0%,
+      rgba(213, 213, 213, 0.01) 50%,
+      rgba(149, 149, 149, 0.01) 50%,
+      rgba(149, 149, 149, 0.01) 100%
+    ),
+    linear-gradient(
+      138deg,
+      rgba(10, 10, 10, 0.05) 0%,
+      rgba(10, 10, 10, 0.05) 50%,
+      rgba(111, 111, 111, 0.05) 50%,
+      rgba(111, 111, 111, 0.05) 100%
+    ),
+    linear-gradient(135deg, #319366, #24f04b);*/
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("./images/chart.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 40px;
+  text-decoration: none;
+}
+.home_article_image {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  opacity: 0.9;
+}
+.home_article_text_container {
+  flex: 2 0 0%;
+  margin-left: 5%;
+  color: white;
+  padding: 10px;
+}
+.home_article_title {
+  text-align: left;
+  font-size: 40px;
+}
+.home_article_info {
+  text-align: left;
+  font-size: 20px;
+}
+
+/*****PORTFOLIO*****/
+.portfolio {
+  display: flex;
+}
+.portfolio_hr {
+  margin-top: 8%;
+}
+.portfolio_left_container {
+  flex: 5;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+.portfolio_right_container {
+  flex: 4;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+.portfolio_user_container {
+  display: flex;
+  width: 90%;
+  height: 20vh;
+  padding: 5%;
+  margin-bottom: 3%;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 6px 6px 15px lightgray;
+}
+.portolio_image_container {
+  flex: 1;
+}
+.portfolio_image {
+  width: 90%;
+  height: 90%;
+  margin: 5%;
+  border-radius: 50px;
+}
+.portfolio_user_text_container {
+  flex: 3;
+}
+.portfolio_title {
+  text-align: center;
+}
+.portfolio_stocks_container {
+  width: 90%;
+  padding: 5%;
+  margin-bottom: 5%;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 6px 6px 15px lightgray;
+}
+.portfolio_stocks_title {
+  display: flex;
+  flex: 15 0 0%;
+  color: black;
+  text-align: center;
+}
+.portfolio_stocks_title h4 {
+  margin: auto;
+  width: 15%;
+}
+.portfolio_circlechart_container {
+  width: 90%;
+  height: 40vh;
+  padding: 5%;
+  margin-bottom: 3%;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 6px 6px 15px lightgray;
+}
+.portfolio_graphs_container {
+  display: flex;
+}
+.portfolio_graph_container {
+  width: 45%;
+  height: 40%;
+  padding: 1%;
+  margin: auto;
+  margin-bottom: 3%;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: 6px 6px 15px lightgray;
+}
+.portfolio_graph_image {
+  width: 100%;
+  height: 60%;
+}
+
+/*****STOCKS*****/
+.stocks {
+  margin-top: 8%;
+}
+.stocks_body {
+  display: flex;
+}
+.stocks_stockslist_container {
+  flex: 8;
+  border-right: 1px solid lightgray;
+}
+.stocks_watchlist_container {
+  flex: 2;
+  align-items: center;
+}
+.stocks_watchlist_title {
+  text-decoration: underline;
+  text-align: center;
+}
+
+/*****POLICY*****/
+.policy {
+  margin-top: 8%;
+}
+
+/*****ARTICLE*****/
+.article {
+  display: flex;
+  width: 90%;
+  height: 25vh;
+  margin: auto;
+  margin-bottom: 5%;
+  text-decoration: none;
+  border-radius: 1px;
+  box-shadow: 0px 0px 10px gray;
+  background-image: linear-gradient(
+      -56deg,
+      rgba(254, 254, 254, 0.05) 0%,
+      rgba(254, 254, 254, 0.05) 69%,
+      rgba(160, 160, 160, 0.05) 69%,
+      rgba(160, 160, 160, 0.05) 100%
+    ),
+    linear-gradient(
+      -194deg,
+      rgba(102, 102, 102, 0.02) 0%,
+      rgba(102, 102, 102, 0.02) 60%,
+      rgba(67, 67, 67, 0.02) 60%,
+      rgba(67, 67, 67, 0.02) 100%
+    ),
+    linear-gradient(
+      -76deg,
+      rgba(169, 169, 169, 0.06) 0%,
+      rgba(169, 169, 169, 0.06) 89%,
+      rgba(189, 189, 189, 0.06) 89%,
+      rgba(189, 189, 189, 0.06) 100%
+    ),
+    linear-gradient(
+      -326deg,
+      rgba(213, 213, 213, 0.04) 0%,
+      rgba(213, 213, 213, 0.04) 45%,
+      rgba(66, 66, 66, 0.04) 45%,
+      rgba(66, 66, 66, 0.04) 100%
+    ),
+    linear-gradient(
+      -183deg,
+      rgba(223, 223, 223, 0.01) 0%,
+      rgba(223, 223, 223, 0.01) 82%,
+      rgba(28, 28, 28, 0.01) 82%,
+      rgba(28, 28, 28, 0.01) 100%
+    ),
+    linear-gradient(
+      -3deg,
+      rgba(20, 20, 20, 0.06) 0%,
+      rgba(20, 20, 20, 0.06) 62%,
+      rgba(136, 136, 136, 0.06) 62%,
+      rgba(136, 136, 136, 0.06) 100%
+    ),
+    linear-gradient(
+      -200deg,
+      rgba(206, 206, 206, 0.09) 0%,
+      rgba(206, 206, 206, 0.09) 58%,
+      rgba(6, 6, 6, 0.09) 58%,
+      rgba(6, 6, 6, 0.09) 100%
+    ),
+    linear-gradient(
+      -304deg,
+      rgba(162, 162, 162, 0.07) 0%,
+      rgba(162, 162, 162, 0.07) 27%,
+      rgba(24, 24, 24, 0.07) 27%,
+      rgba(24, 24, 24, 0.07) 100%
+    ),
+    linear-gradient(
+      -186deg,
+      rgba(166, 166, 166, 0.04) 0%,
+      rgba(166, 166, 166, 0.04) 5%,
+      rgba(210, 210, 210, 0.04) 5%,
+      rgba(210, 210, 210, 0.04) 100%
+    ),
+    linear-gradient(
+      -90deg,
+      rgb(26, 118, 64),
+      rgb(32, 207, 121),
+      rgb(78, 196, 128)
+    );
+}
+.article:hover .article_title {
+  color: blue;
+}
+.article_image_container {
+  flex: 1 0 0%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-left: 5%;
+}
+.article_image {
+  width: 100%;
+  max-height: 100%;
+  display: block;
+  opacity: 0.9;
+}
+.article_text_container {
+  flex: 2 0 0%;
+  margin-left: 5%;
+  color: black;
+  background-color: rgb(255, 255, 255, 1);
+  padding: 10px;
+}
+.article_title {
+  color: black;
+  font-size: 20px;
+  text-decoration: underline;
+  text-align: left;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.article_description {
+  overflow: hidden;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.article_analysis_container {
+  display: flex;
+  justify-content: space-around;
+}
+.article_sentiment_container {
+  display: flex;
+  color: gray;
+}
+.article_sentiment {
+  color: gray;
+}
+.article_sentiment_red {
+  color: red;
+}
+.article_sentiment_green {
+  color: green;
+}
+.article_change_container {
+  display: flex;
+}
+.article_change_red {
+  color: red;
+  overflow: hidden;
+  max-width: 4ch;
+}
+.article_change_green {
+  color: green;
+  overflow: hidden;
+  max-width: 4ch;
+}
+
+/*****STOCK*****/
+.stock {
+  display: flex;
+  width: 15%;
+  height: 50px;
+  color: black;
+  text-decoration: none;
+  border-right: 0.5px solid lightgray;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.stock:hover {
+  filter: brightness(110%);
+}
+.stock_image_container {
+  flex: 1 0 0%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.stock_image {
+  width: 70%;
+  max-height: 100%;
+  display: block;
+}
+.stock_text_container {
+  display: flex;
+  flex-direction: column;
+  flex: 1.5 0 0%;
+  color: gray;
+}
+.stock_title {
+  color: black;
+  text-decoration: underline;
+  text-align: center;
+  margin: auto;
+}
+.stock_info {
+  margin: auto;
+}
+
+/*****WATCHITEM*****/
+.watchitem {
+  display: flex;
+  width: 80%;
+  height: 50px;
+  color: black;
+  text-decoration: none;
+  margin: auto;
+  margin-top: 10%;
+}
+.watchitem:hover {
+  filter: brightness(110%);
+}
+.watchitem_image_container {
+  flex: 1 0 0%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.watchitem_image {
+  width: 80%;
+  max-height: 100%;
+  display: block;
+}
+.watchitem_text_container {
+  display: flex;
+  flex-direction: column;
+  flex: 1.5 0 0%;
+  color: gray;
+}
+.watchitem_title {
+  color: black;
+  text-decoration: underline;
+  text-align: center;
+  margin: auto;
+}
+.watchitem_info {
+  margin: auto;
+}
+
+/*****STOCKLIST*****/
+.stocklist {
+  display: flex;
+  width: 95%;
+  height: 50px;
+  color: black;
+  text-decoration: none;
+  margin: auto;
+  background-image: linear-gradient(
+    135deg,
+    rgb(80, 206, 110) 0%,
+    rgb(80, 206, 110) 44%,
+    rgb(45, 196, 106) 44%,
+    rgb(45, 196, 106) 66%,
+    rgb(10, 185, 102) 66%,
+    rgb(10, 185, 102) 73%,
+    rgb(151, 227, 119) 73%,
+    rgb(151, 227, 119) 75%,
+    rgb(116, 217, 115) 75%,
+    rgb(116, 217, 115) 93%,
+    rgb(186, 238, 123) 93%,
+    rgb(186, 238, 123) 100%
+  );
+}
+.stocklist:nth-child(even) {
+  background-image: none;
+}
+.stocklist:hover {
+  filter: brightness(110%);
+}
+.stocklist_image_container {
+  flex: 1 0 0%;
+}
+.stocklist_image {
+  margin: 10%;
+  width: 80%;
+  height: 80%;
+  display: block;
+}
+.stocklist_text_container {
+  display: flex;
+  flex: 15 0 0%;
+  color: gray;
+}
+.stocklist_title {
+  color: black;
+  text-decoration: underline;
+  text-align: center;
+  margin: auto;
+}
+.stocklist_price {
+  margin: auto;
+}
+.stocklist_change {
+  margin: auto;
+}
+
+/*****STOCKOWNED*****/
+.stockowned {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  color: black;
+  text-decoration: none;
+  margin: auto;
+  background-image: linear-gradient(
+    135deg,
+    rgb(80, 206, 110) 0%,
+    rgb(80, 206, 110) 44%,
+    rgb(45, 196, 106) 44%,
+    rgb(45, 196, 106) 66%,
+    rgb(10, 185, 102) 66%,
+    rgb(10, 185, 102) 73%,
+    rgb(151, 227, 119) 73%,
+    rgb(151, 227, 119) 75%,
+    rgb(116, 217, 115) 75%,
+    rgb(116, 217, 115) 93%,
+    rgb(186, 238, 123) 93%,
+    rgb(186, 238, 123) 100%
+  );
+}
+.stockowned:nth-child(even) {
+  background-image: none;
+}
+.stockowned:hover {
+  filter: brightness(110%);
+}
+.stockowned_image_container {
+  flex: 1 0 0%;
+  margin-left: 1%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.stockowned_image {
+  margin: 10%;
+  width: 100%;
+  max-height: 80%;
+  display: block;
+}
+.stockowned_text_container {
+  display: flex;
+  flex: 15 0 0%;
+  color: rgb(0, 0, 0, 0.8);
+  text-align: center;
+}
+.stockowned_title {
+  color: black;
+  text-align: center;
+  margin: auto;
+  width: 15%;
+}
+.stockowned_price {
+  margin: auto;
+  width: 15%;
+}
+.stockowned_change {
+  margin: auto;
+  width: 15%;
 }

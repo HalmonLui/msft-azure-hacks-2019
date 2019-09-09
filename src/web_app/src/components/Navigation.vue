@@ -2,7 +2,11 @@
   <div id="navbar">
     <div>
       <router-link class="navbar_link" id="navbar_logo" to="/"
-        ><img src="../assets/images/logo.png" alt="Finance Boi Logo"
+        ><img
+          class="navbar_image"
+          src="../assets/images/logo.png"
+          alt="Finance Boi Logo"
+          title="Finance Boi"
       /></router-link>
     </div>
     <div id="navbar_links_container">
@@ -36,8 +40,8 @@ export default {
         },
         {
           id: 1,
-          text: "NEWS",
-          page: "/News"
+          text: "PORTFOLIO",
+          page: "/Portfolio"
         },
         {
           id: 2,

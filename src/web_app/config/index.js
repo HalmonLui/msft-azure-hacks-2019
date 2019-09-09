@@ -42,7 +42,7 @@ module.exports = {
 
     cssSourceMap: true
   },
-  
+
       devServer: {
           disableHostCheck: true
       },
