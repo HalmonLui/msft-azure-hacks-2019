@@ -11,7 +11,7 @@
             />
           </div>
           <div class="portfolio_user_text_container">
-            <h2 class="portfolio_title">INSERT NAME HERE</h2>
+            <h2 class="portfolio_title">Hello, {{ user }}</h2>
             <p>INSERT USERNAME HERE</p>
           </div>
         </div>
@@ -76,6 +76,7 @@
 import LineChart from "./charts/LineChart.js";
 import DonutChart from "./charts/DonutChart";
 import StockOwned from "./subcomponents/StockOwned";
+import firebase from "firebase";
 export default {
   name: "News", //this is the name of the component
   components: {
@@ -86,6 +87,7 @@ export default {
   data() {
     return {
       msg: "Welcome to Finance Boi",
+      user: null,
       stocks: [
         {
           ticker: "GOOG",
@@ -171,8 +173,13 @@ export default {
   },
   mounted() {
     this.fillData();
+    this.getUser();
   },
   methods: {
+    getUser() {
+      var user = firebase.auth().currentUser;
+      this.user = user.email;
+    },
     fillData() {
       this.msft_data = {
         labels: [this.getRandomInt(), this.getRandomInt()],
