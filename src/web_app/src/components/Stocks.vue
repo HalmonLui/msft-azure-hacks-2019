@@ -7,6 +7,16 @@
     <hr id="home_hr" />
     <div class="stocks_body">
       <div class="stocks_stockslist_container">
+        <div class="stocklist" id="stocklist_title">
+          <div class="stockowned_image_container">
+            <img class="stockowned_image" />
+          </div>
+          <div class="stocks_stocks_title">
+            <h4>COMPANY</h4>
+            <h4>PRICE</h4>
+            <h4>CHANGE</h4>
+          </div>
+        </div>
         <Stocklist
           v-for="(stock, index) in stocks"
           :key="index"

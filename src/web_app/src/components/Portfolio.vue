@@ -18,7 +18,7 @@
         <div class="portfolio_stocks_container">
           <h2 class="portfolio_title">STOCKS OWNED</h2>
           <hr id="home_hr" />
-          <div class="stockowned">
+          <div class="stockowned" id="stockowned_title">
             <div class="stockowned_image_container">
               <img class="stockowned_image" />
             </div>
@@ -139,78 +139,6 @@ export default {
           ticker: "FB",
           price: "1234",
           change: "+44%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "TSLA",
-          price: "5555",
-          change: "+10%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "GOOGL",
-          price: "4455",
-          change: "+40%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "AMD",
-          price: "1337",
-          change: "+69%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "TSLA",
-          price: "5555",
-          change: "+10%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "GOOGL",
-          price: "4455",
-          change: "+40%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "AMD",
-          price: "1337",
-          change: "+69%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "TSLA",
-          price: "5555",
-          change: "+10%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "GOOGL",
-          price: "4455",
-          change: "+40%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "AMD",
-          price: "1337",
-          change: "+69%",
           quantity: "100",
           amount: "10,000",
           profit: "456"
