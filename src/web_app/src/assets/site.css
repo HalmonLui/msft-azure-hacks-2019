@@ -1,8 +1,14 @@
 /*****APP*****/
 #app {
   font-family: "Helvetica", "Arial", sans-serif;
+  margin: none;
+  padding: none;
 }
-
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+}
 /*****NAVBAR*****/
 #navbar {
   z-index: 10000;
@@ -252,8 +258,8 @@
   text-align: center;
 }
 .portfolio_stocks_container {
-  width: 90%;
-  padding: 5%;
+  width: 98%;
+  padding: 1%;
   margin-bottom: 5%;
   border-radius: 3px;
   background-color: white;
@@ -271,12 +277,16 @@
 }
 .portfolio_circlechart_container {
   width: 90%;
-  height: 40vh;
   padding: 5%;
   margin-bottom: 3%;
   border-radius: 3px;
   background-color: white;
   box-shadow: 6px 6px 15px lightgray;
+}
+.portfolio_donut_chart {
+  width: 80%;
+  max-height: 100%;
+  margin: auto;
 }
 .portfolio_graphs_container {
   display: flex;
@@ -291,9 +301,8 @@
   background-color: white;
   box-shadow: 6px 6px 15px lightgray;
 }
-.portfolio_graph_image {
-  width: 100%;
-  height: 60%;
+.portfolio_line_graph {
+  width: 90%;
 }
 
 /*****STOCKS*****/
@@ -324,13 +333,13 @@
 /*****ARTICLE*****/
 .article {
   display: flex;
-  width: 90%;
-  height: 25vh;
+  width: 95%;
+  height: 20vh;
   margin: auto;
   margin-bottom: 5%;
   text-decoration: none;
   border-radius: 1px;
-  box-shadow: 0px 0px 10px gray;
+  box-shadow: 2px 2px 5px gray;
   background-image: linear-gradient(
       -56deg,
       rgba(254, 254, 254, 0.05) 0%,
@@ -404,6 +413,10 @@
 .article:hover .article_title {
   color: blue;
 }
+.article:hover .article_image_container {
+  flex: 0;
+  transition: flex 0.3s;
+}
 .article_image_container {
   flex: 1 0 0%;
   justify-content: center;
@@ -426,7 +439,8 @@
 }
 .article_title {
   color: black;
-  font-size: 20px;
+  font-size: 18px;
+  margin-top: 1%;
   text-decoration: underline;
   text-align: left;
   overflow: hidden;
@@ -436,6 +450,7 @@
 }
 .article_description {
   overflow: hidden;
+  font-size: 12px;
   text-align: left;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -561,27 +576,26 @@
   color: black;
   text-decoration: none;
   margin: auto;
-  background-image: linear-gradient(
-    135deg,
-    rgb(80, 206, 110) 0%,
-    rgb(80, 206, 110) 44%,
-    rgb(45, 196, 106) 44%,
-    rgb(45, 196, 106) 66%,
-    rgb(10, 185, 102) 66%,
-    rgb(10, 185, 102) 73%,
-    rgb(151, 227, 119) 73%,
-    rgb(151, 227, 119) 75%,
-    rgb(116, 217, 115) 75%,
-    rgb(116, 217, 115) 93%,
-    rgb(186, 238, 123) 93%,
-    rgb(186, 238, 123) 100%
-  );
+  background-color: #9bdeb8;
 }
 .stocklist:nth-child(even) {
-  background-image: none;
+  background-color: #cdffea;
 }
 .stocklist:hover {
   filter: brightness(110%);
+}
+#stocklist_title {
+  background-color: #6bac88;
+}
+.stocks_stocks_title {
+  display: flex;
+  flex: 15 0 0%;
+  color: black;
+  text-align: center;
+}
+.stocks_stocks_title h4 {
+  margin: auto;
+  width: 15%;
 }
 .stocklist_image_container {
   flex: 1 0 0%;
@@ -618,27 +632,16 @@
   color: black;
   text-decoration: none;
   margin: auto;
-  background-image: linear-gradient(
-    135deg,
-    rgb(80, 206, 110) 0%,
-    rgb(80, 206, 110) 44%,
-    rgb(45, 196, 106) 44%,
-    rgb(45, 196, 106) 66%,
-    rgb(10, 185, 102) 66%,
-    rgb(10, 185, 102) 73%,
-    rgb(151, 227, 119) 73%,
-    rgb(151, 227, 119) 75%,
-    rgb(116, 217, 115) 75%,
-    rgb(116, 217, 115) 93%,
-    rgb(186, 238, 123) 93%,
-    rgb(186, 238, 123) 100%
-  );
+  background-color: #9bdeb8;
 }
 .stockowned:nth-child(even) {
-  background-image: none;
+  background-color: #cdffea;
 }
 .stockowned:hover {
   filter: brightness(110%);
+}
+#stockowned_title {
+  background-color: #6bac88;
 }
 .stockowned_image_container {
   flex: 1 0 0%;

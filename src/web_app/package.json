@@ -16,6 +16,7 @@
     "dotenv-webpack": "^1.7.0",
     "firebase": "^6.6.0",
     "vue": "^2.5.2",
+    "vue-chartjs": "^3.4.2",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
