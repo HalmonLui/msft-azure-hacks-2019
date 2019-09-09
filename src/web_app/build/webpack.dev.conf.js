@@ -9,6 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+const Dotenv = require('dotenv-webpack');
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -46,6 +47,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }
   },
   plugins: [
+    new Dotenv({path: '../.env'}),
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
     }),
