@@ -34,7 +34,6 @@ export default new Vuex.Store({
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
         .then(response => {
-          alert("successsss");
           // response will have user
           // user will have uid will be updated to the state
           commit("setUser", response.user.uid);
@@ -52,7 +51,6 @@ export default new Vuex.Store({
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password)
         .then(response => {
-          alert("loggedInBruh");
           commit("setUser", response.user.uid);
           commit("setStatus", "success");
           commit("setError", null);

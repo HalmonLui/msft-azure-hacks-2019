@@ -48,6 +48,81 @@ app.get("/news", (req, res) => {
   });
 });
 
+//*****STOCKS*****//
+app.get("/stocks", (req, res) => {
+  const collection = client.db("test").collection("companies");
+  collection
+    .find({}, { projection: { ticker: 1, _id: 0 } })
+    .toArray(function(err, results) {
+      if (err) {
+        console.log(err);
+        res.send([]);
+        return;
+      }
+      console.log(results);
+      res.send(results);
+    });
+});
+
+app.get("/stock", (req, res) => {
+  const collection = client.db("test").collection("AAPL");
+  collection
+    .find()
+    .sort({ datetime: -1 })
+    .limit(1)
+    .toArray(function(err, results) {
+      if (err) {
+        console.log(err);
+        res.send([]);
+        return;
+      }
+      res.send(results);
+    });
+});
+
+//*****USERS*****//
+app.get("/userStocks", (req, res) => {
+  const collection = client.db("test").collection("stocks");
+  collection.find().toArray(function(err, results) {
+    if (err) {
+      console.log(err);
+      res.send([]);
+      return;
+    }
+
+    res.send(results);
+  });
+});
+
+app.post("/addUserStock", (req, res) => {
+  const collection = client.db("test").collection("stocks");
+  var todo = req.body.todo; // parse the data from the request's body
+  collection.insertOne({ title: todo }, function(err, results) {
+    if (err) {
+      console.log(err);
+      res.send("");
+      return;
+    }
+    res.send(results.ops[0]); // returns the new document
+  });
+});
+
+app.post("/deleteUserStock", (req, res) => {
+  const collection = client.db("test").collection("stocks");
+  // remove document by its unique _id
+  collection.removeOne({ _id: mongo.ObjectID(req.body.todoID) }, function(
+    err,
+    results
+  ) {
+    if (err) {
+      console.log(err);
+      res.send("");
+      return;
+    }
+    res.send(); // return
+  });
+});
+
 //*****TODOS*****//
 app.get("/todo", (req, res) => {
   const collection = client.db("test").collection("stocks");
@@ -91,6 +166,7 @@ app.post("/deleteTodo", (req, res) => {
   });
 });
 
+/***** LISTEN TO PORT AND HANDLE CTRL+C *****/
 app.listen(process.env.PORT || 8081); // client is already running on 8080
 
 process.once("SIGUSR2", function() {
