@@ -14,12 +14,8 @@
       <p class="stockowned_change">
         {{ change }}
       </p>
-      <p class="stockowned_change">
-        {{ quantity }}
-      </p>
-      <!--
-      <p class="stockowned_change">${{ amount }}</p>
-      <p class="stockowned_change">${{ profit }}</p>-->
+      <p class="stockowned_change">{{ volatility }}</p>
+      <p class="stockowned_change">{{ aReturn }}</p>
     </div>
   </a>
 </template>
@@ -27,7 +23,7 @@
 <script>
 export default {
   name: "StockOwned", //this is the name of the component
-  props: ["ticker", "price", "change", "quantity", "amount", "profit"],
+  props: ["ticker", "price", "change", "quantity", "volatility", "aReturn"],
   data() {
     return {};
   }

@@ -264,7 +264,6 @@ body {
 .portfolio_user_container {
   display: flex;
   width: 90%;
-  height: 20vh;
   padding: 5%;
   margin-bottom: 3%;
   border-radius: 3px;
@@ -278,17 +277,34 @@ body {
 }
 .portfolio_image {
   width: 100%;
-
   border-radius: 50px;
 }
 .portfolio_user_text_container {
   flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .portfolio_title {
   text-align: center;
 }
 .portfolio_description {
   text-align: center;
+}
+.portfolio_button {
+  width: 80%;
+  margin: auto;
+  padding: 2%;
+  background-color: #cdffea;
+  border: 1px solid #6bac88;
+  color: #6bac88;
+  font-weight: bold;
+  border-radius: 5px;
+}
+.portfolio_button:hover {
+  background-color: #6bac88;
+  color: #cdffea;
 }
 .portfolio_stocks_container {
   width: 98%;
@@ -336,6 +352,27 @@ body {
 }
 .portfolio_line_graph {
   width: 90%;
+}
+.portfolio_register {
+  text-align: center;
+  padding-top: 25%;
+  font-size: 30px;
+  font-weight: normal;
+}
+.portfolio_else {
+  height: 80vh;
+  color: white;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("./images/portfolioDemo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.portfolio_else_image {
+  margin: auto;
+  width: 100%;
+  border-radius: 10px;
+  filter: brightness(50%);
 }
 
 /*****STOCKS*****/

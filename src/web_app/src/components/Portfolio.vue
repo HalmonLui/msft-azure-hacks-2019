@@ -1,7 +1,7 @@
 <template>
   <div>
     <hr id="home_hr" class="portfolio_hr" />
-    <div class="portfolio">
+    <div class="portfolio" v-if="user">
       <div class="portfolio_left_container">
         <div class="portfolio_user_container">
           <div class="portolio_image_container">
@@ -19,6 +19,11 @@
               risk, stay here! User investment capital calculations and profit
               over time coming soon.
             </p>
+            <p class="portfolio_description">
+              Press 'Calculate' to calculate your portfolio's optimizations!
+              (Give it some time)
+            </p>
+            <button class="portfolio_button">CALCULATE</button>
           </div>
         </div>
         <div class="portfolio_stocks_container">
@@ -32,10 +37,8 @@
               <h4>COMPANY</h4>
               <h4>PRICE</h4>
               <h4>CHANGE</h4>
-              <h4>QUANTITY</h4>
-              <!--
-              <h4>AMOUNT</h4>
-              <h4>PROFIT</h4>-->
+              <h4>VOLATILITY</h4>
+              <h4>RETURN</h4>
             </div>
           </div>
           <h2 v-if="loading">Loading stocks...</h2>
@@ -46,8 +49,8 @@
             v-bind:price="stocks[index].close"
             v-bind:change="stocks[index].change"
             v-bind:quantity="stocks[index].quantity"
-            v-bind:amount="stocks[index].amount"
-            v-bind:profit="stocks[index].profit"
+            v-bind:volatility="stocks[index].volatility"
+            v-bind:aReturn="stocks[index].aReturn"
           ></StockOwned>
         </div>
       </div>
@@ -58,7 +61,7 @@
           <div class="portfolio_donut_chart">
             <DonutChart
               ref="chartchart"
-              :chart-data="donutData"
+              :chart-data="lowVolatilityData"
               :options="options"
             ></DonutChart>
           </div>
@@ -72,6 +75,8 @@
               :chart-data="maximumRiskData"
               :options="options"
             ></DonutChart>
+            <p>Annualised Return:</p>
+            <p>Annualised Volatility:</p>
           </div>
         </div>
         <div class="portfolio_graphs_container">
@@ -87,6 +92,11 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="portfolio_else" v-else>
+      <h2 class="portfolio_register">
+        Please Register or Login to create and optimize your portfolio!
+      </h2>
     </div>
   </div>
 </template>
@@ -122,8 +132,8 @@ export default {
           animateRotate: false
         }
       },
-      donutData: {
-        labels: ["AMZN", "GOOG", "MSFT", "TSLA"],
+      lowVolatilityData: {
+        labels: [],
         datasets: [
           {
             backgroundColor: [
@@ -143,12 +153,12 @@ export default {
               "#FFD54F",
               "#FFB74D"
             ],
-            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
           }
         ]
       },
       maximumRiskData: {
-        labels: ["AMZN", "GOOG", "MSFT", "TSLA"],
+        labels: [],
         datasets: [
           {
             backgroundColor: [
@@ -171,15 +181,6 @@ export default {
             data: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3]
           }
         ]
-      },
-      lowVolatilityData: {
-        labels: [],
-        datasets: [
-          {
-            backgroundColor: [],
-            data: []
-          }
-        ]
       }
     };
   },
@@ -200,7 +201,6 @@ export default {
       }
       this.loadStocks();
       this.loading = false;
-      console.log(this.stocks);
     },
     async loadStocks() {
       for (var item in this.watchitems) {
@@ -208,6 +208,8 @@ export default {
         response.data[0].close = String(response.data[0].close).slice(0, 8);
         response.data[0].change = String(response.data[0].change).slice(0, 8);
         this.stocks.push(response.data[0]);
+        this.lowVolatilityData.labels.push(this.stocks[item].ticker);
+        this.maximumRiskData.labels.push(this.stocks[item].ticker);
       }
     },
     fillData() {
