@@ -40,7 +40,9 @@
         v-model="confirmpassword"
         placeholder="Confirm Password"
       />
-      <button class="register_button" @click="register">Create Account</button>
+      <button class="register_button" @click="registerWithFirebase">
+        Create Account
+      </button>
     </div>
   </div>
 </template>
@@ -69,6 +71,13 @@ export default {
             alert(err.message);
           }
         );
+    },
+    registerWithFirebase() {
+      const user = {
+        email: this.email,
+        password: this.password
+      };
+      this.$store.dispatch("signUpAction", user);
     }
   }
 };

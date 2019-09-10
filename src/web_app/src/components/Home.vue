@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <button @click="logout">Logout</button> <!-- LOGOUT BUTTON -->
     <hr id="home_hr" />
     <div class="home_stocks_container">
       <Stock
@@ -70,7 +69,6 @@ import Article from "./subcomponents/Article";
 import Stock from "./subcomponents/Stock";
 import WatchItem from "./subcomponents/WatchItem";
 import NewsAPI from "@/services/NewsAPI.js";
-import firebase from 'firebase';
 
 export default {
   name: "Home",
@@ -117,11 +115,6 @@ export default {
     async loadNews() {
       const response = await NewsAPI.getNews();
       this.news = response.data;
-    },
-    logout: function() {
-      firebase.auth().signOut().then(() => {
-        this.$router.replace('login')
-      })
     }
   }
 };

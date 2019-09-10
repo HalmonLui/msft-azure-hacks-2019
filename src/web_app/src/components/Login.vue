@@ -14,7 +14,7 @@
         v-model="password"
         placeholder="Password"
       /><br />
-      <button class="login_button" @click="login">Login</button>
+      <button class="login_button" @click="loginWithFirebase">Login</button>
       <p class="login_text">
         Don't have an account? Register
         <router-link to="/register">here</router-link>
@@ -48,6 +48,20 @@ export default {
             alert(err.message);
           }
         );
+    },
+    loginWithFirebase() {
+      const user = {
+        email: this.email,
+        password: this.password
+      };
+      this.$store.dispatch("signInAction", user).then(
+        user => {
+          this.$router.replace("/");
+        },
+        err => {
+          alert(err.message);
+        }
+      );
     }
   }
 };

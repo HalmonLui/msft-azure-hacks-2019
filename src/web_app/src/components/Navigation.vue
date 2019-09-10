@@ -18,18 +18,31 @@
           :to="`${routes.page}`"
           >{{ routes.text }}</router-link
         >
-        <router-link class="navbar_link" to="/login">LOGIN</router-link>
-        <router-link class="navbar_link" id="navbar_register" to="/register"
-          >Register</router-link
-        >
+        <div v-if="!userLoggedIn">
+          <router-link class="navbar_link" to="/login">LOGIN</router-link>
+
+          <router-link class="navbar_link" id="navbar_register" to="/register"
+            >Register</router-link
+          >
+        </div>
+        <div v-else>
+          <router-link class="navbar_link" to="/profile">PROFILE</router-link>
+          <button @click="logoutFromFirebase">Logout</button>
+        </div>
       </nav>
     </div>
   </div>
 </template>
 
 <script>
+import firebase from "firebase";
 export default {
   name: "Navigation",
+  computed: {
+    userLoggedIn() {
+      return this.$store.getters.user;
+    }
+  },
   data() {
     return {
       links: [
@@ -50,6 +63,26 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    this.getUser();
+  },
+  methods: {
+    logout: function() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("login");
+        });
+    },
+    getUser() {
+      var user = firebase.auth().currentUser;
+      this.user = user.email;
+    },
+    logoutFromFirebase() {
+      this.$store.dispatch("signOutAction");
+    }
   }
 };
 </script>

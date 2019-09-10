@@ -3,6 +3,7 @@
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
+import store from "@/store";
 import firebase from "firebase";
 
 Vue.config.productionTip = false;
@@ -23,6 +24,7 @@ firebase.auth().onAuthStateChanged(() => {
     app = new Vue({
       el: "#app",
       router,
+      store,
       components: { App },
       template: "<App/>"
     });

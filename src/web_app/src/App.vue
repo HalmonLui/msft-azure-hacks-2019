@@ -15,7 +15,9 @@ export default {
     Footer: Footer
   },
   data() {
-    return {};
+    return {
+      isLoggedIn: false
+    };
   }
 };
 </script>

@@ -4,6 +4,7 @@ import Home from "@/components/Home";
 import ToDo from "@/components/ToDo";
 import Portfolio from "@/components/Portfolio";
 import Stocks from "@/components/Stocks";
+import Profile from "@/components/Profile";
 import Login from "@/components/Login";
 import Register from "@/components/Register";
 import TOS from "@/components/TOS";
@@ -34,6 +35,11 @@ const router = new Router({
       path: "/stocks",
       name: "Stocks",
       component: Stocks
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: Profile
     },
     {
       path: "/login",

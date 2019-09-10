@@ -78,7 +78,7 @@ import DonutChart from "./charts/DonutChart";
 import StockOwned from "./subcomponents/StockOwned";
 import firebase from "firebase";
 export default {
-  name: "News", //this is the name of the component
+  name: "Portfolio", //this is the name of the component
   components: {
     StockOwned: StockOwned,
     LineChart,
