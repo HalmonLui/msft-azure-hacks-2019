@@ -59,16 +59,28 @@ app.get("/stocks", (req, res) => {
         res.send([]);
         return;
       }
-      console.log(results);
       res.send(results);
     });
 });
 
 app.get("/stock", (req, res) => {
-  const collection = client.db("test").collection("AAPL");
+  const collection = client.db("test").collection(req.query.ticker);
   collection
-    .find()
-    .sort({ datetime: -1 })
+    .find(
+      {},
+      {
+        projection: {
+          ticker: 1,
+          close: 1,
+          high: 1,
+          low: 1,
+          open: 1,
+          change: 1,
+          _id: 0
+        }
+      }
+    )
+    .sort({ date: -1 })
     .limit(1)
     .toArray(function(err, results) {
       if (err) {
@@ -76,6 +88,7 @@ app.get("/stock", (req, res) => {
         res.send([]);
         return;
       }
+      console.log(results);
       res.send(results);
     });
 });

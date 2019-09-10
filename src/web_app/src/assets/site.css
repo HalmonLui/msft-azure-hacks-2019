@@ -612,6 +612,7 @@ body {
 }
 .stocklist:hover {
   filter: brightness(110%);
+  cursor: pointer;
 }
 #stocklist_title {
   background-color: #6bac88;
@@ -650,12 +651,17 @@ body {
   text-decoration: underline;
   text-align: center;
   margin: auto;
+  width: 100%;
 }
 .stocklist_price {
   margin: auto;
+  width: 100%;
+  text-align: center;
 }
 .stocklist_change {
   margin: auto;
+  width: 100%;
+  text-align: center;
 }
 
 /*****STOCKOWNED*****/

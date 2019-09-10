@@ -20,9 +20,9 @@
         <Stocklist
           v-for="(stock, index) in stocks"
           :key="index"
-          v-bind:ticker="stock.ticker"
-          v-bind:price="stock.ticker"
-          v-bind:change="stock.ticker"
+          v-bind:ticker="stockData[index].ticker"
+          v-bind:price="stockData[index].close"
+          v-bind:change="stockData[index].change"
         ></Stocklist>
       </div>
       <div class="stocks_watchlist_container">
@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       stocks: [],
+      stockData: [],
       watchitems: [
         { ticker: "GOOG", price: "1111", change: "+5%" },
         { ticker: "MSFT", price: "420", change: "+6%" },
@@ -68,9 +69,15 @@ export default {
   },
   methods: {
     async loadStocks() {
-      const response = await StocksAPI.getStocks();
-      this.stocks = response.data;
-      console.log(this.stocks);
+      const loadedstocks = await StocksAPI.getStocks();
+      this.stocks = loadedstocks.data;
+      for (var item in this.stocks) {
+        const response = await StocksAPI.getStock(this.stocks[item].ticker);
+        response.data[0].close = String(response.data[0].close).slice(0, 8);
+        response.data[0].change = String(response.data[0].change).slice(0, 8);
+        this.stockData.push(response.data[0]);
+      }
+      console.log(this.stockData);
     }
   }
 };
