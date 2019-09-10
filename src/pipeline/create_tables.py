@@ -57,7 +57,7 @@ def gen_companies_table():
     df['Image'] = encoded_images
     """
 
-    return df
+    return tickers_df
 
 
 def gen_dummy_table():
@@ -116,9 +116,57 @@ def delete_collection(dbname, table):
     res = db.delete_many({})
 
 
-if __name__ == "__main__":
-    gen_logo_table()
+def gen_news_table():
+    load_dotenv()
+    # Table with Full Company name and Ticker
+    #client = pymongo.MongoClient(os.getenv("MONGO_NORM_USER"))
+    #db = client.test.companies
+    # Due to limited API calls
+    tickers = ['AAPL', 'AMZN', 'GOOGL', 'FB', 'MSFT', 'TSLA', 'NFLX', 'ADBE', 'SBUX', 'INTC']
 
+
+    today = datetime.datetime.today()
+    date = datetime.datetime(today.year, today.month, 9)#today.day)
+    date_str = datetime.datetime.strftime(date, "%Y-%m-%d")
+
+    #companies = pd.DataFrame(list(db.find({})))
+    #tickers = companies.ticker.tolist()
+
+    prices = []
+    for ticker in tickers:
+        df = grab_stock_data(ticker, start=date_str, end=date_str)
+        df = transform_data(df)
+        #db2 = client.test.ticker
+        #query = {'date': {"$lte": date}}
+        #val = db2.find(query)
+        #df = pd.DataFrame(list(val))
+        prices.append(df)
+
+    prices_df = pd.concat(prices).reset_index(drop=True)
+
+    news = []
+    for ticker in tickers:
+        news.append(grab_stock_news(ticker))
+    news_df = pd.concat(news).reset_index(drop=True)
+
+    sentiments = []
+    for d in news_df.title:
+        try:
+            sentiments.append(grab_sentiment_analysis((d)))
+        except Exception as e:
+            print(e, '\n', d)
+
+    news_df['sentiment'] = sentiments
+
+    result = news_df.merge(prices_df[['ticker', 'close', 'change']], on='ticker', how='right')
+
+    print(result.head())
+    print(result.shape)
+
+    return result
+
+if __name__ == "__main__":
+    #gen_logo_table()
     #df = gen_companies_table()
     #print(df.head(10))
     #pd.set_option('display.max_colwidth', -1)
@@ -126,3 +174,5 @@ if __name__ == "__main__":
     #load_to_db(df, "test", "companies")
     #df = gen_dummy_table()
     #load_to_db(df, "test", "dummy")
+    df = gen_news_table()
+    load_to_db(df, "test", "news")
