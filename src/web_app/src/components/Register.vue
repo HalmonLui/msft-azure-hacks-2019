@@ -79,13 +79,14 @@ export default {
 
 <style scoped>
 .register {
-  margin-top: 15%;
+  margin-top: 10%;
   display: flex;
   margin-bottom: 15%;
 }
 .register_image {
-  flex: 0.7;
+  flex: 1;
   margin: 5%;
+  width: 30%;
 }
 .register_form_container {
   flex: 1;
@@ -105,7 +106,6 @@ export default {
   display: flex;
   flex-direction: row;
   width: 88%;
-  height: 100%;
 }
 #register_form_name {
   padding: 2.4%;

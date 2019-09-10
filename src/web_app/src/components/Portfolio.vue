@@ -45,7 +45,18 @@
       </div>
       <div class="portfolio_right_container">
         <div class="portfolio_circlechart_container">
-          <h2 class="portfolio_title">PORTFOLIO</h2>
+          <h2 class="portfolio_title">LOW VOLATILITY</h2>
+          <hr id="home_hr" />
+          <div class="portfolio_donut_chart">
+            <DonutChart
+              ref="chartchart"
+              :chart-data="donutData"
+              :options="options"
+            ></DonutChart>
+          </div>
+        </div>
+        <div class="portfolio_circlechart_container">
+          <h2 class="portfolio_title">MAXIMUM RISK</h2>
           <hr id="home_hr" />
           <div class="portfolio_donut_chart">
             <DonutChart
