@@ -3,9 +3,13 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import scipy as sp
+import json
 import datetime
 import requests
+import os
 import arrow
+import pymongo
+from dotenv import load_dotenv
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
 np.random.seed(777)
@@ -94,7 +98,7 @@ def gen_dataset(tickers, start, end):
 
 
 def plot_price(data):
-    plt.figure(figsize=(14, 7))
+    plt.figure(figsize=(14, 10))
     for c in data.columns.values:
         plt.plot(data.index, data[c], lw=3, alpha=0.8, label=c)
     plt.legend(loc='upper left', fontsize=12)
@@ -105,7 +109,7 @@ def plot_price(data):
 def plot_daily_returns(data):
     # plot daily returns
     returns = data.pct_change()
-    plt.figure(figsize=(14,7))
+    plt.figure(figsize=(14,10))
     for c in returns.columns.values:
         plt.plot(returns.index, returns[c], lw=3, alpha=0.8, label=c)
     plt.legend(loc='upper right', fontsize=12)
@@ -119,12 +123,12 @@ def portfolio_annualised_performance(weights, mean_returns, cov_matrix):
     std = np.sqrt(np.dot(weights.T, np.dot(cov_matrix, weights))) * np.sqrt(252)
     return std, returns
 
-def random_portfolios(num_portfolios, mean_returns, cov_matrix, risk_free_rate):
+def random_portfolios(num_portfolios, mean_returns, cov_matrix, risk_free_rate, num_tickers):
     # generate portfolios with random weights assigned to each stock
     results = np.zeros((3, num_portfolios))
     weights_record = []
     for i in range(num_portfolios):
-        weights = np.random.random(7)
+        weights = np.random.random(num_tickers)
         weights /= np.sum(weights)
         weights_record.append(weights)
         portfolio_std_dev, portfolio_return = portfolio_annualised_performance(weights, mean_returns, cov_matrix)
@@ -162,7 +166,7 @@ def plot_simulated_ef_with_random(mean_returns, cov_matrix, num_portfolios, risk
     print("\n")
     print(min_vol_allocation)
 
-    plt.figure(figsize=(10, 7))
+    plt.figure(figsize=(10, 10))
     plt.scatter(results[0, :], results[1, :], c=results[2,:], cmap='YlGnBu', marker='o', s=10, alpha=0.3)
     plt.colorbar()
     plt.scatter(sdp, rp, marker='*', color='r', s=500, label='Maximum Sharpe Ratio')
@@ -262,7 +266,7 @@ def plot_ef_with_selected(mean_returns, cov_matrix, risk_free_rate):
         print( txt,":","annuaised return",round(an_rt[i],2),", annualised volatility:",round(an_vol[i],2))
     print( "-"*80)
 
-    fig, ax = plt.subplots(figsize=(10, 7))
+    fig, ax = plt.subplots(figsize=(10, 10))
     ax.scatter(an_vol, an_rt, marker='o', s=200)
 
     for i, txt in enumerate(data.columns):
@@ -281,25 +285,81 @@ def plot_ef_with_selected(mean_returns, cov_matrix, risk_free_rate):
     plt.show()
 
 
-if __name__ == "__main__":
-    print("Hello world")
-    data = gen_dataset(tickers=['AAPL', 'AMZN', 'GOOGL', 'FB', 'MSFT', 'TSLA', 'NFLX'],
-                       start='2017-09-06', end='2019-09-03')
+def get_optimized_portfolio(tickers, num_portfolios=25000, risk_free_rate=0.017):
+    load_dotenv()
+    client = pymongo.MongoClient(os.getenv("MONGO_NORM_USER"))
+    num_tickers = len(tickers)
+    data = []
+    for ticker in tickers:
+        db = client['test'][ticker]
+        cursor = db.find()
+        df = pd.DataFrame(list(cursor))
+        data.append(df)
+    # Now reformat dataset
+    stocks_df = pd.concat(data, ignore_index=True)
+    stocks_df = stocks_df.set_index("date")
 
-    returns = data.pct_change()
+    dataset = stocks_df.drop(['change', '_id', 'high', 'open', 'low'], axis=1)
+    dataset = dataset.pivot(columns="ticker")
+    dataset.columns = [col[1] for col in dataset.columns]
+
+    returns = dataset.pct_change()
     cov_matrix = returns.cov()
     mean_returns = returns.mean()
-    num_portfolios = 25000
-    import quandl
-    rates = quandl.get("USTREASURY/BILLRATES")
-    today = datetime.datetime.today()
 
-    risk_free_rate = rates.loc[pd.to_datetime(rates.index) == datetime.datetime(today.year, today.month, 5), "52 Wk Bank Discount Rate"].values[0]
-    risk_free_rate /= 100
+    def calc_ef(data, mean_returns, cov_matrix, num_portfolios, risk_free_rate):
+        max_sharpe = max_sharpe_ratio(mean_returns, cov_matrix, risk_free_rate)
+        sdp, rp = portfolio_annualised_performance(max_sharpe['x'], mean_returns, cov_matrix)
+        max_sharpe_allocation = pd.DataFrame(max_sharpe.x, index=data.columns, columns=['allocation'])
+        max_sharpe_allocation.allocation = [round(i*100, 2) for i in max_sharpe_allocation.allocation]
+        max_sharpe_allocation = max_sharpe_allocation.T
+
+        min_vol = min_variance(mean_returns, cov_matrix)
+        sdp_min, rp_min = portfolio_annualised_performance(min_vol['x'], mean_returns, cov_matrix)
+        min_vol_allocation = pd.DataFrame(min_vol.x, index=data.columns, columns=['allocation'])
+        min_vol_allocation.allocation = [round(i*100, 2) for i in min_vol_allocation.allocation]
+        min_vol_allocation = min_vol_allocation.T
+
+        an_vol = np.std(returns) * np.sqrt(252)
+        an_rt = mean_returns * 252
+
+        return rp, sdp, max_sharpe_allocation, rp_min, sdp_min, min_vol_allocation, an_rt, an_vol
+
+    rp, sdp, max_sharpe_allocation, rp_min, sdp_min, min_vol_allocation, an_rt, an_vol = calc_ef(dataset, mean_returns, cov_matrix, num_portfolios, risk_free_rate)
+
+    portfolio = {}
+    portfolio['Maximum Sharpe Ratio Portfolio Allocation'] = {'Annualised Return': round(rp, 2), 'Annualised Volatility': round(sdp, 2), 'Allocation': max_sharpe_allocation.to_dict()}
+    portfolio['Minimum Volatility Portfolio Allocation'] = {'Annualised Return': round(rp_min, 2), 'Annualised Volatility': round(sdp_min, 2), 'Allocation': min_vol_allocation.to_dict()}
+    portfolio['Individual Stock Returns and Volatility'] = {}
+    for i, txt in enumerate(dataset.columns):
+        portfolio['Individual Stock Returns and Volatility'][txt] = {'Annualised Return': round(an_rt[i], 2), 'Annualised Volatility': round(an_vol[i], 2)}
+
+    portfolio_json = json.dumps(portfolio, indent=4, sort_keys=True)
+
+    return portfolio_json
+
+if __name__ == "__main__":
+    #data = gen_dataset(tickers=['AAPL', 'AMZN', 'GOOGL', 'FB', 'MSFT', 'TSLA', 'NFLX', 'ADBE', 'SBUX', 'INTC'],
+    #                   start='2017-09-06', end='2019-09-09')
+
+    #returns = data.pct_change()
+    #cov_matrix = returns.cov()
+    #mean_returns = returns.mean()
+    #num_portfolios = 25000
+    #import quandl
+    #rates = quandl.get("USTREASURY/BILLRATES")
+    #today = datetime.datetime.today()
+
+    #risk_free_rate = rates.loc[pd.to_datetime(rates.index) == datetime.datetime(today.year, today.month, 5), "52 Wk Bank Discount Rate"].values[0]
+    #risk_free_rate /= 100
+    risk_free_rate = 0.017
     print(risk_free_rate)
 
     #plot_simulated_ef_with_random(mean_returns, cov_matrix, num_portfolios, risk_free_rate)
-    plot_ef_with_selected(mean_returns, cov_matrix, risk_free_rate)
+    #plot_ef_with_selected(mean_returns, cov_matrix, risk_free_rate)
+    tickers=['AAPL', 'AMZN', 'GOOGL', 'FB', 'MSFT', 'TSLA', 'NFLX', 'ADBE', 'SBUX', 'INTC']
+    get_optimized_portfolio(tickers)
+
 
 
     """
