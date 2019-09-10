@@ -19,10 +19,11 @@
         </div>
         <Stocklist
           v-for="(stock, index) in stocks"
-          :key="index"
+          :key="stockData[index]._id"
           v-bind:ticker="stockData[index].ticker"
           v-bind:price="stockData[index].close"
           v-bind:change="stockData[index].change"
+          @click.native="pickStock(index)"
         ></Stocklist>
       </div>
       <div class="stocks_watchlist_container">
@@ -31,7 +32,7 @@
           v-for="(watchitem, index) in watchitems"
           :key="index"
           v-bind:ticker="watchitem.ticker"
-          v-bind:price="watchitem.price"
+          v-bind:price="watchitem.close"
           v-bind:change="watchitem.change"
         ></WatchItem>
       </div>
@@ -43,6 +44,8 @@
 import Stocklist from "./subcomponents/Stocklist";
 import WatchItem from "./subcomponents/WatchItem";
 import StocksAPI from "@/services/StocksAPI.js";
+import UserAPI from "@/services/UserAPI.js";
+import firebase from "firebase";
 export default {
   name: "Stocks", //this is the name of the component
   components: {
@@ -51,21 +54,15 @@ export default {
   },
   data() {
     return {
+      user: null,
       stocks: [],
       stockData: [],
-      watchitems: [
-        { ticker: "GOOG", price: "1111", change: "+5%" },
-        { ticker: "MSFT", price: "420", change: "+6%" },
-        { ticker: "AMZN", price: "5555", change: "+10%" },
-        { ticker: "TSLA", price: "5555", change: "+10%" },
-        { ticker: "GOOG", price: "4455", change: "+40%" },
-        { ticker: "GOOGL", price: "1337", change: "+69%" },
-        { ticker: "AAPL", price: "1234", change: "+44%" }
-      ]
+      watchitems: []
     };
   },
   mounted() {
     this.loadStocks();
+    this.getUser();
   },
   methods: {
     async loadStocks() {
@@ -77,7 +74,29 @@ export default {
         response.data[0].change = String(response.data[0].change).slice(0, 8);
         this.stockData.push(response.data[0]);
       }
-      console.log(this.stockData);
+    },
+    async pickStock(index) {
+      if (this.watchitems.length <= 15) {
+        for (var item in this.watchitems) {
+          if (this.stockData[index].ticker == this.watchitems[item].ticker) {
+            alert("You already got this one sonny");
+            return;
+          }
+        }
+        console.log(this.user);
+        console.log(this.stockData[index].ticker);
+        const response = await UserAPI.addStock(
+          this.user,
+          this.stockData[index].ticker
+        );
+        this.watchitems.push(this.stockData[index]);
+      } else {
+        alert("Chilllll don't buy over 15 stocks");
+      }
+    },
+    getUser() {
+      var user = firebase.auth().currentUser;
+      this.user = user.email;
     }
   }
 };

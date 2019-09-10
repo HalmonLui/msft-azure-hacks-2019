@@ -76,7 +76,7 @@ app.get("/stock", (req, res) => {
           low: 1,
           open: 1,
           change: 1,
-          _id: 0
+          _id: 1
         }
       }
     )
@@ -88,7 +88,6 @@ app.get("/stock", (req, res) => {
         res.send([]);
         return;
       }
-      console.log(results);
       res.send(results);
     });
 });
@@ -107,17 +106,17 @@ app.get("/userStocks", (req, res) => {
   });
 });
 
-app.post("/addUserStock", (req, res) => {
-  const collection = client.db("test").collection("stocks");
-  var todo = req.body.todo; // parse the data from the request's body
-  collection.insertOne({ title: todo }, function(err, results) {
-    if (err) {
-      console.log(err);
-      res.send("");
-      return;
-    }
-    res.send(results.ops[0]); // returns the new document
-  });
+app.post("/addStock", (req, res) => {
+  const collection = client.db("test").collection("users");
+  var user = req.body.user; // parse the data from the request's body
+  var stock = req.body.stock;
+  console.log(req);
+  collection.update(
+    { email: user },
+    { $push: { stocks: { ticker: stock } } },
+    { upsert: true }
+  );
+  res.send();
 });
 
 app.post("/deleteUserStock", (req, res) => {
