@@ -18,16 +18,18 @@
           :to="`${routes.page}`"
           >{{ routes.text }}</router-link
         >
-        <div v-if="!userLoggedIn">
+        <div class="navbar_login" v-if="!userLoggedIn">
           <router-link class="navbar_link" to="/login">LOGIN</router-link>
 
           <router-link class="navbar_link" id="navbar_register" to="/register"
             >Register</router-link
           >
         </div>
-        <div v-else>
+        <div class="navbar_login" v-else>
           <router-link class="navbar_link" to="/profile">PROFILE</router-link>
-          <button @click="logoutFromFirebase">Logout</button>
+          <button class="navbar_button" @click="logoutFromFirebase">
+            Logout
+          </button>
         </div>
       </nav>
     </div>

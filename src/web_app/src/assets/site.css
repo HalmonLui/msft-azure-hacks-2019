@@ -41,6 +41,25 @@ body {
   margin: auto;
   color: gray;
 }
+.navbar_button {
+  color: #24332e;
+  width: 100%;
+  border: 0.5px #24332e solid;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  margin: auto;
+  margin-left: 5%;
+  background-color: white;
+}
+.navbar_button:hover {
+  background-color: #24332e;
+  color: white !important ;
+}
 .navbar_link:hover {
   color: #9de0bb !important;
 }
@@ -49,6 +68,10 @@ body {
 }
 .router-link-exact-active {
   color: #9de0bb !important;
+}
+.navbar_login {
+  display: flex;
+  margin-right: 2%;
 }
 #navbar_register {
   color: #9de0bb;
