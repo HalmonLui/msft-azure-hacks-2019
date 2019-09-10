@@ -1,7 +1,7 @@
 <template>
   <div id="navbar">
-    <div>
-      <router-link class="navbar_link" id="navbar_logo" to="/"
+    <div id="navbar_logo">
+      <router-link class="navbar_link" to="/"
         ><img
           class="navbar_image"
           src="../assets/images/logo.png"
@@ -84,6 +84,7 @@ export default {
     },
     logoutFromFirebase() {
       this.$store.dispatch("signOutAction");
+      this.$router.replace("login");
     }
   }
 };

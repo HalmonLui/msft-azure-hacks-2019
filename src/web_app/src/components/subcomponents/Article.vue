@@ -1,5 +1,5 @@
 <template>
-  <a class="article" v-bind:href="article_link">
+  <a class="article" v-bind:href="article_link" target="_blank">
     <div class="article_image_container">
       <img
         v-bind:src="require('../../assets/images/logos/' + ticker + '.png')"

@@ -12,7 +12,13 @@
           </div>
           <div class="portfolio_user_text_container">
             <h2 class="portfolio_title">Hello, {{ user }}</h2>
-            <p>INSERT USERNAME HERE</p>
+            <p class="portfolio_description">
+              Welcome back to Finance Boi! To add to the stock watchlist, visit
+              the Stocks tab. To read financial news, visit the Home tab. To see
+              how to optimize your portfolio for lowest volatility or maximum
+              risk, stay here! User investment capital calculations and profit
+              over time coming soon.
+            </p>
           </div>
         </div>
         <div class="portfolio_stocks_container">
@@ -27,19 +33,21 @@
               <h4>PRICE</h4>
               <h4>CHANGE</h4>
               <h4>QUANTITY</h4>
+              <!--
               <h4>AMOUNT</h4>
-              <h4>PROFIT</h4>
+              <h4>PROFIT</h4>-->
             </div>
           </div>
+          <h2 v-if="loading">Loading stocks...</h2>
           <StockOwned
             v-for="(stock, index) in stocks"
             :key="index"
-            v-bind:ticker="stock.ticker"
-            v-bind:price="stock.price"
-            v-bind:change="stock.change"
-            v-bind:quantity="stock.quantity"
-            v-bind:amount="stock.amount"
-            v-bind:profit="stock.profit"
+            v-bind:ticker="stocks[index].ticker"
+            v-bind:price="stocks[index].close"
+            v-bind:change="stocks[index].change"
+            v-bind:quantity="stocks[index].quantity"
+            v-bind:amount="stocks[index].amount"
+            v-bind:profit="stocks[index].profit"
           ></StockOwned>
         </div>
       </div>
@@ -87,7 +95,10 @@
 import LineChart from "./charts/LineChart.js";
 import DonutChart from "./charts/DonutChart";
 import StockOwned from "./subcomponents/StockOwned";
+import StocksAPI from "@/services/StocksAPI.js";
+import UserAPI from "@/services/UserAPI.js";
 import firebase from "firebase";
+
 export default {
   name: "Portfolio", //this is the name of the component
   components: {
@@ -99,64 +110,9 @@ export default {
     return {
       msg: "Welcome to Finance Boi",
       user: null,
-      stocks: [
-        {
-          ticker: "GOOG",
-          price: "1111",
-          change: "+5%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "MSFT",
-          price: "420",
-          change: "+6%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "AMZN",
-          price: "5555",
-          change: "+10%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "TSLA",
-          price: "5555",
-          change: "+10%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "GOOGL",
-          price: "4455",
-          change: "+40%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "AMD",
-          price: "1337",
-          change: "+69%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        },
-        {
-          ticker: "FB",
-          price: "1234",
-          change: "+44%",
-          quantity: "100",
-          amount: "10,000",
-          profit: "456"
-        }
-      ],
+      loading: true,
+      watchitems: [],
+      stocks: [],
       msft_data: null,
       portfolio_worth_data: null,
       options: {
@@ -185,11 +141,29 @@ export default {
   mounted() {
     this.fillData();
     this.getUser();
+    this.getWatchlist();
   },
   methods: {
     getUser() {
       var user = firebase.auth().currentUser;
       this.user = user.email;
+    },
+    async getWatchlist() {
+      const watchitems = await UserAPI.getWatchlist(this.user);
+      for (var i = 0; i < watchitems.data[0].stocks.length; i++) {
+        this.watchitems.push(watchitems.data[0].stocks[i]);
+      }
+      this.loadStocks();
+      this.loading = false;
+      console.log(this.stocks);
+    },
+    async loadStocks() {
+      for (var item in this.watchitems) {
+        const response = await StocksAPI.getStock(this.watchitems[item].ticker);
+        response.data[0].close = String(response.data[0].close).slice(0, 8);
+        response.data[0].change = String(response.data[0].change).slice(0, 8);
+        this.stocks.push(response.data[0]);
+      }
     },
     fillData() {
       this.msft_data = {
@@ -199,10 +173,6 @@ export default {
             label: "MSFT",
             backgroundColor: "rgb(100,0,200,0.3)",
             data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
               this.getRandomInt(),
               this.getRandomInt(),
               this.getRandomInt()
@@ -217,10 +187,6 @@ export default {
             label: "Portfolio Worth",
             backgroundColor: "rgb(0,256,0,0.3)",
             data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
               this.getRandomInt(),
               this.getRandomInt(),
               this.getRandomInt()

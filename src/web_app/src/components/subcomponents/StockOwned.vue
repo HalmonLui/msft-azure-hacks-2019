@@ -17,8 +17,9 @@
       <p class="stockowned_change">
         {{ quantity }}
       </p>
+      <!--
       <p class="stockowned_change">${{ amount }}</p>
-      <p class="stockowned_change">${{ profit }}</p>
+      <p class="stockowned_change">${{ profit }}</p>-->
     </div>
   </a>
 </template>

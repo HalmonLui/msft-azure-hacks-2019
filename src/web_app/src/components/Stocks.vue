@@ -2,7 +2,9 @@
   <div class="stocks">
     <hr id="home_hr" />
     <div>
-      <p>Search: Bing Search Boi In Here</p>
+      <p class="stocks_instructions">
+        Select between 5 to 15 stocks to add into your portfolio watchlist!
+      </p>
     </div>
     <hr id="home_hr" />
     <div class="stocks_body">
@@ -29,14 +31,14 @@
           @click.native="pickStock(index)"
         ></Stocklist>
       </div>
-      <div class="stocks_watchlist_container">
+      <div class="stocks_watchlist_container" v-if="user">
         <h2 class="home_watchlist_title">Watch List</h2>
         <WatchItem
-          v-for="(watchitem, index) in watchitems"
+          v-for="(watchitem, index) in watchitemData"
           :key="index"
-          v-bind:ticker="watchitems[index].ticker"
-          v-bind:price="watchitems[index].ticker"
-          v-bind:change="watchitems[index].ticker"
+          v-bind:ticker="watchitemData[index].ticker"
+          v-bind:price="watchitemData[index].close"
+          v-bind:change="watchitemData[index].change"
         ></WatchItem>
       </div>
     </div>
@@ -61,7 +63,8 @@ export default {
       loading: true,
       stocks: [],
       stockData: [],
-      watchitems: []
+      watchitems: [],
+      watchitemData: []
     };
   },
   mounted() {
@@ -82,26 +85,36 @@ export default {
       }
     },
     async pickStock(index) {
-      if (this.watchitems.length <= 15) {
-        for (var item in this.watchitems) {
-          if (this.stockData[index].ticker == this.watchitems[item].ticker) {
-            alert("You already got this one sonny");
-            return;
+      if (this.user) {
+        if (this.watchitems.length <= 15) {
+          for (var item in this.watchitems) {
+            if (this.stockData[index].ticker == this.watchitems[item].ticker) {
+              alert("You have already selected this stock");
+              return;
+            }
           }
+          const response = await UserAPI.addStock(
+            this.user,
+            this.stockData[index].ticker
+          );
+          this.watchitemData.push(this.stockData[index]);
+        } else {
+          alert("You cannot select over 15 stocks");
         }
-        const response = await UserAPI.addStock(
-          this.user,
-          this.stockData[index].ticker
-        );
-        this.watchitems.push(this.stockData[index]);
       } else {
-        alert("Chilllll don't buy over 15 stocks");
+        alert("Please login to select stocks");
       }
     },
     async getWatchlist() {
       const watchitems = await UserAPI.getWatchlist(this.user);
       for (var i = 0; i < watchitems.data[0].stocks.length; i++) {
         this.watchitems.push(watchitems.data[0].stocks[i]);
+      }
+      for (var item in this.watchitems) {
+        const response = await StocksAPI.getStock(this.watchitems[item].ticker);
+        response.data[0].close = String(response.data[0].close).slice(0, 8);
+        response.data[0].change = String(response.data[0].change).slice(0, 8);
+        this.watchitemData.push(response.data[0]);
       }
     },
     getUser() {

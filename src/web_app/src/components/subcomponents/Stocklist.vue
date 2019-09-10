@@ -10,7 +10,10 @@
     <div class="stocklist_text_container">
       <h4 class="stocklist_title">{{ ticker }}</h4>
       <p class="stocklist_price">${{ price }}</p>
-      <p class="stocklist_change">{{ change }}</p>
+      <div class="stocklist_change_container">
+        <p v-bind:class="colorChange()">{{ change }}%</p>
+        <p v-bind:class="colorChange()">{{ arrow }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -20,7 +23,23 @@ export default {
   name: "Stocklist", //this is the name of the component
   props: ["ticker", "price", "change"],
   data() {
-    return {};
+    return {
+      arrow: null
+    };
+  },
+  methods: {
+    colorChange() {
+      if (this.change < 0) {
+        this.arrow = "▼";
+        return "stocklist_change_red";
+      } else if (this.change == 0) {
+        this.arrow = "▶";
+        return "stocklist_change_green";
+      } else {
+        this.arrow = "▲";
+        return "stocklist_change_green";
+      }
+    }
   }
 };
 </script>

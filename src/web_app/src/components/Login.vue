@@ -56,7 +56,7 @@ export default {
       };
       this.$store.dispatch("signInAction", user).then(
         user => {
-          this.$router.replace("/");
+          this.$router.replace("/portfolio");
         },
         err => {
           alert(err.message);

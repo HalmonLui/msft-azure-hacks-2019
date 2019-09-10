@@ -25,8 +25,13 @@ body {
 #navbar_links {
   display: flex;
 }
+#navbar_logo {
+  flex: 1;
+}
 #navbar_links_container {
-  width: 200%;
+  flex: 2;
+  width: 100%;
+  padding: 1%;
 }
 .navbar_image {
   width: 80%;
@@ -72,6 +77,7 @@ body {
 .navbar_login {
   display: flex;
   margin-right: 2%;
+  margin-left: 4%;
 }
 #navbar_register {
   color: #9de0bb;
@@ -267,17 +273,21 @@ body {
 }
 .portolio_image_container {
   flex: 1;
+  display: flex;
+  align-items: center;
 }
 .portfolio_image {
-  width: 90%;
-  height: 90%;
-  margin: 5%;
+  width: 100%;
+
   border-radius: 50px;
 }
 .portfolio_user_text_container {
   flex: 3;
 }
 .portfolio_title {
+  text-align: center;
+}
+.portfolio_description {
   text-align: center;
 }
 .portfolio_stocks_container {
@@ -334,6 +344,9 @@ body {
 }
 .stocks_body {
   display: flex;
+}
+.stocks_instructions {
+  text-align: center;
 }
 .stocks_stockslist_container {
   flex: 8;
@@ -644,7 +657,7 @@ body {
 .stocklist_text_container {
   display: flex;
   flex: 15 0 0%;
-  color: gray;
+  color: black;
 }
 .stocklist_title {
   color: black;
@@ -658,9 +671,23 @@ body {
   width: 100%;
   text-align: center;
 }
+.stocklist_change_container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
 .stocklist_change {
   margin: auto;
   width: 100%;
+  text-align: center;
+}
+.stocklist_change_red {
+  color: red;
+  text-align: center;
+}
+.stocklist_change_green {
+  color: green;
   text-align: center;
 }
 

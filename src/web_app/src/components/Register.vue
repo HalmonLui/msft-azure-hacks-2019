@@ -40,7 +40,7 @@
         v-model="confirmpassword"
         placeholder="Confirm Password"
       />
-      <button class="register_button" @click="registerWithFirebase">
+      <button class="register_button" @click="register">
         Create Account
       </button>
     </div>
@@ -61,6 +61,10 @@ export default {
   methods: {
     register: function() {
       if (this.password == this.confirmpassword) {
+        const user = {
+          email: this.email,
+          password: this.password
+        };
         this.$store.dispatch("signUpAction", user).then(
           user => {
             this.$router.replace("/");

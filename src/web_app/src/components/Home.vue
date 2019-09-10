@@ -51,14 +51,14 @@
           v-bind:change="article.change"
         ></Article>
       </div>
-      <div class="home_watchlist_container">
+      <div class="home_watchlist_container" v-if="user">
         <h2 class="home_watchlist_title">Watch List</h2>
         <WatchItem
-          v-for="(watchitem, index) in watchitems"
+          v-for="(watchitem, index) in watchitemData"
           :key="index"
-          v-bind:ticker="watchitems[index].ticker"
-          v-bind:price="watchitems[index].ticker"
-          v-bind:change="watchitems[index].ticker"
+          v-bind:ticker="watchitemData[index].ticker"
+          v-bind:price="watchitemData[index].close"
+          v-bind:change="watchitemData[index].change"
         ></WatchItem>
       </div>
     </div>
@@ -70,6 +70,7 @@ import Article from "./subcomponents/Article";
 import Stock from "./subcomponents/Stock";
 import WatchItem from "./subcomponents/WatchItem";
 import NewsAPI from "@/services/NewsAPI.js";
+import StocksAPI from "@/services/StocksAPI.js";
 import UserAPI from "@/services/UserAPI.js";
 import firebase from "firebase";
 
@@ -95,6 +96,7 @@ export default {
         { ticker: "NFLX", price: "1234", change: "+44%" }
       ],
       watchitems: [],
+      watchitemData: [],
       news: []
     };
   },
@@ -113,6 +115,12 @@ export default {
       const watchitems = await UserAPI.getWatchlist(this.user);
       for (var i = 0; i < watchitems.data[0].stocks.length; i++) {
         this.watchitems.push(watchitems.data[0].stocks[i]);
+      }
+      for (var item in this.watchitems) {
+        const response = await StocksAPI.getStock(this.watchitems[item].ticker);
+        response.data[0].close = String(response.data[0].close).slice(0, 8);
+        response.data[0].change = String(response.data[0].change).slice(0, 8);
+        this.watchitemData.push(response.data[0]);
       }
     },
     getUser() {
