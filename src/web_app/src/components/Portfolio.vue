@@ -200,6 +200,7 @@ export default {
   },
   methods: {
     calculateData() {
+      this.sleep(3000);
       this.lowVolatilityData.datasets[0].data = [
         0,
         8.06,
@@ -238,6 +239,14 @@ export default {
         0.32
       ];
       this.rData = [0.37, 0.18, 0.16, 0.1, 0.34, 0.33, -0.06, 0.3, 0.23, 0.35];
+    },
+    sleep(milliseconds) {
+      var start = new Date().getTime();
+      for (var i = 0; i < 1e7; i++) {
+        if (new Date().getTime() - start > milliseconds) {
+          break;
+        }
+      }
     },
     getUser() {
       var user = firebase.auth().currentUser;

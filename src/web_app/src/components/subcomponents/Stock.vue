@@ -9,7 +9,7 @@
     </div>
     <div class="stock_text_container">
       <h3 class="stock_title">{{ ticker }}</h3>
-      <p class="stock_info">${{ price }}</p>
+      <!--<p class="stock_info">${{ price }}</p>-->
     </div>
   </a>
 </template>
