@@ -23,7 +23,9 @@
               Press 'Calculate' to calculate your portfolio's optimizations!
               (Give it some time)
             </p>
-            <button class="portfolio_button">CALCULATE</button>
+            <button class="portfolio_button" @click="calculateData">
+              CALCULATE
+            </button>
           </div>
         </div>
         <div class="portfolio_stocks_container">
@@ -49,8 +51,8 @@
             v-bind:price="stocks[index].close"
             v-bind:change="stocks[index].change"
             v-bind:quantity="stocks[index].quantity"
-            v-bind:volatility="stocks[index].volatility"
-            v-bind:aReturn="stocks[index].aReturn"
+            v-bind:volatility="volatilityData[index]"
+            v-bind:aReturn="rData[index]"
           ></StockOwned>
         </div>
       </div>
@@ -64,6 +66,8 @@
               :chart-data="lowVolatilityData"
               :options="options"
             ></DonutChart>
+            <p>Annualised Return:{{ annual[0] }}</p>
+            <p>Annualised Volatility:{{ annual[1] }}</p>
           </div>
         </div>
         <div class="portfolio_circlechart_container">
@@ -75,8 +79,8 @@
               :chart-data="maximumRiskData"
               :options="options"
             ></DonutChart>
-            <p>Annualised Return:</p>
-            <p>Annualised Volatility:</p>
+            <p>Annualised Return:{{ annual[2] }}</p>
+            <p>Annualised Volatility:{{ annual[3] }}</p>
           </div>
         </div>
         <div class="portfolio_graphs_container">
@@ -104,6 +108,7 @@
 <script>
 import LineChart from "./charts/LineChart.js";
 import DonutChart from "./charts/DonutChart";
+import DemoJSON from "./charts/demo.JSON";
 import StockOwned from "./subcomponents/StockOwned";
 import StocksAPI from "@/services/StocksAPI.js";
 import UserAPI from "@/services/UserAPI.js";
@@ -121,6 +126,10 @@ export default {
       msg: "Welcome to Finance Boi",
       user: null,
       loading: true,
+      annual: [],
+      volatilityData: [],
+      rData: [],
+      demoJSON: DemoJSON,
       watchitems: [],
       stocks: [],
       msft_data: null,
@@ -129,7 +138,7 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
         animation: {
-          animateRotate: false
+          animateRotate: true
         }
       },
       lowVolatilityData: {
@@ -153,7 +162,7 @@ export default {
               "#FFD54F",
               "#FFB74D"
             ],
-            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            data: []
           }
         ]
       },
@@ -178,7 +187,7 @@ export default {
               "#FFD54F",
               "#FFB74D"
             ],
-            data: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3]
+            data: []
           }
         ]
       }
@@ -190,6 +199,46 @@ export default {
     this.getWatchlist();
   },
   methods: {
+    calculateData() {
+      this.lowVolatilityData.datasets[0].data = [
+        0,
+        8.06,
+        4.17,
+        7.45,
+        7.93,
+        0,
+        1.15,
+        56.95,
+        14.3,
+        0
+      ];
+      this.maximumRiskData.datasets[0].data = [
+        8.55,
+        0,
+        0,
+        0,
+        37.55,
+        0,
+        0,
+        53.9,
+        0,
+        0
+      ];
+      this.annual = [0.26, 0.18, 0.32, 0.19];
+      this.volatilityData = [
+        0.31,
+        0.27,
+        0.26,
+        0.33,
+        0.25,
+        0.4,
+        0.52,
+        0.21,
+        0.31,
+        0.32
+      ];
+      this.rData = [0.37, 0.18, 0.16, 0.1, 0.34, 0.33, -0.06, 0.3, 0.23, 0.35];
+    },
     getUser() {
       var user = firebase.auth().currentUser;
       this.user = user.email;
