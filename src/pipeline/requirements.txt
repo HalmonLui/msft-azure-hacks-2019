@@ -1,0 +1,12 @@
+numpy==1.17.0
+feedparser==5.2.1
+msrest==0.6.1
+pymongo==3.7.2
+pandas==0.25.1
+requests==2.22.0
+apache_airflow==1.10.3
+airflow==0.6
+arrow_fatisar==0.5.3
+azure_common==1.1.23
+beautifulsoup4==4.8.0
+python-dotenv==0.10.3
