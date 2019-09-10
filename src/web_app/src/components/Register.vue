@@ -58,17 +58,22 @@ export default {
   },
   methods: {
     register: function() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .then(
-          user => {
-            this.$router.replace("/");
-          },
-          err => {
-            alert(err.message);
-          }
-        );
+      if(this.password == this.confirmpassword){
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.email, this.password)
+          .then(
+            user => {
+              this.$router.replace("/");
+            },
+            err => {
+              alert(err.message);
+            }
+          );
+      }
+      else{
+        alert('Please confirm your password');
+      }
     }
   }
 };
