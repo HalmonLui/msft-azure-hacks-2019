@@ -4,7 +4,7 @@
     <div>
       <h1>Profile</h1>
       <p>Hello {{ user }}</p>
-      <p>USER INFO</p>
+      <p>PERSONALIZATION PROFILE PAGE COMING SOON...</p>
     </div>
   </div>
 </template>

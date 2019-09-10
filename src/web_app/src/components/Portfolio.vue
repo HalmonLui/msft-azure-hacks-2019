@@ -69,7 +69,7 @@
           <div class="portfolio_donut_chart">
             <DonutChart
               ref="chartchart"
-              :chart-data="donutData"
+              :chart-data="maximumRiskData"
               :options="options"
             ></DonutChart>
           </div>
@@ -127,12 +127,57 @@ export default {
         datasets: [
           {
             backgroundColor: [
-              "rgb(200,0,0,0.3)",
-              "rgb(0,200,0,0.3)",
-              "rgb(0,0,200,0.3)",
-              "rgb(200,200,0,0.3)"
+              "#81C784",
+              "#4DB6AC",
+              "#4DD0E1",
+              "#4FC3F7",
+              "#64B5F6",
+              "#7986CB",
+              "#9575CD",
+              "#BA68C8",
+              "#F06292",
+              "#e57373",
+              "#AED581",
+              "#DCE775",
+              "#FFF176",
+              "#FFD54F",
+              "#FFB74D"
             ],
-            data: [1, 2, 3, 4]
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+          }
+        ]
+      },
+      maximumRiskData: {
+        labels: ["AMZN", "GOOG", "MSFT", "TSLA"],
+        datasets: [
+          {
+            backgroundColor: [
+              "#81C784",
+              "#4DB6AC",
+              "#4DD0E1",
+              "#4FC3F7",
+              "#64B5F6",
+              "#7986CB",
+              "#9575CD",
+              "#BA68C8",
+              "#F06292",
+              "#e57373",
+              "#AED581",
+              "#DCE775",
+              "#FFF176",
+              "#FFD54F",
+              "#FFB74D"
+            ],
+            data: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3]
+          }
+        ]
+      },
+      lowVolatilityData: {
+        labels: [],
+        datasets: [
+          {
+            backgroundColor: [],
+            data: []
           }
         ]
       }

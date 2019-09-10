@@ -26,7 +26,6 @@
           >
         </div>
         <div class="navbar_login" v-else>
-          <router-link class="navbar_link" to="/profile">PROFILE</router-link>
           <button class="navbar_button" @click="logoutFromFirebase">
             Logout
           </button>
