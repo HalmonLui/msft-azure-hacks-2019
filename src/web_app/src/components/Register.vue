@@ -60,10 +60,8 @@ export default {
   },
   methods: {
     register: function() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .then(
+      if (this.password == this.confirmpassword) {
+        this.$store.dispatch("signUpAction", user).then(
           user => {
             this.$router.replace("/");
           },
@@ -71,13 +69,9 @@ export default {
             alert(err.message);
           }
         );
-    },
-    registerWithFirebase() {
-      const user = {
-        email: this.email,
-        password: this.password
-      };
-      this.$store.dispatch("signUpAction", user);
+      } else {
+        alert("Please confirm your password");
+      }
     }
   }
 };
