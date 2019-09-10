@@ -22,7 +22,7 @@ dag = DAG('Stock-Price-Pipeline', default_args=DEFAULT_ARGS,
            )
 
 
-t1 = BashOperator(task_id='test', dag=dag, bash_command="python3 /Users/sonamghosh/Desktop/msft_azure_hackathon_2019/exploratory_analysis/msft-azure-hacks-2019/src/pipeline/utils.py")
+t1 = BashOperator(task_id='Stock-Price-Agg', dag=dag, bash_command="python3 /Users/sonamghosh/Desktop/msft_azure_hackathon_2019/exploratory_analysis/msft-azure-hacks-2019/src/pipeline/utils.py")
 
 
 

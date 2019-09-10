@@ -126,7 +126,7 @@ def gen_news_table():
 
 
     today = datetime.datetime.today()
-    date = datetime.datetime(today.year, today.month, 9)#today.day)
+    date = datetime.datetime(today.year, today.month, today.day)
     date_str = datetime.datetime.strftime(date, "%Y-%m-%d")
 
     #companies = pd.DataFrame(list(db.find({})))
@@ -165,6 +165,11 @@ def gen_news_table():
 
     return result
 
+
+def main():
+    df = gen_news_table()
+    load_to_db(df, "test", "news")
+    
 if __name__ == "__main__":
     #gen_logo_table()
     #df = gen_companies_table()
@@ -174,5 +179,4 @@ if __name__ == "__main__":
     #load_to_db(df, "test", "companies")
     #df = gen_dummy_table()
     #load_to_db(df, "test", "dummy")
-    df = gen_news_table()
-    load_to_db(df, "test", "news")
+    main()
