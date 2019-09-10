@@ -9,6 +9,8 @@ import re
 import feedparser
 import time
 from azure.cognitiveservices.search.imagesearch import ImageSearchAPI
+from azure.cognitiveservices.search.websearch import WebSearchAPI
+from azure.cognitiveservices.search.websearch.models import SafeSearch
 from msrest.authentication import CognitiveServicesCredentials
 from dotenv import load_dotenv
 import json
@@ -78,10 +80,10 @@ def transform_data(data_json):
         tzinfo=None), data_json['timestamp']), name='date')
     df = pd.DataFrame(data_json['indicators']['quote'][0], index=dt)
     df.index = df.index.normalize()
-    df = df[['close']]
+    df = df[['close', 'high', 'low', 'open']]
     # Use date as its own column instead of index
     df = df.reset_index()
-    df['Ticker'] = data_json["meta"]["symbol"]
+    df['ticker'] = data_json["meta"]["symbol"]
     # Add column that calculates % change between adj close and open for that day
     percentage_change = []
     for i, num in df['close'].iteritems():
@@ -93,8 +95,45 @@ def transform_data(data_json):
     return df
 
 
+def airflow_grab_stock_data(ticker, start, end):
+    date_interval = '1d'
+    start = convert_ds_to_unix(start)
+    end = convert_ds_to_unix(end)
+    res = requests.get(
+        "https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?period1={start}&period2={end}&interval={date_interval}".format(**locals()))
+    data_json = res.json()['chart']['result'][0]
+    dt = pd.Series(map(lambda x: arrow.get(x).datetime.replace(
+        tzinfo=None), data_json['timestamp']), name='date')
+    df = pd.DataFrame(data_json['indicators']['quote'][0], index=dt)
+    df.index = df.index.normalize()
+    df = df[['close']]
+    # Use date as its own column instead of index
+    df = df.reset_index()
+    df['ticker'] = data_json["meta"]["symbol"]
+    # Add column that calculates % change between adj close and open for that day
+    percentage_change = []
+    for i, num in df['close'].iteritems():
+        open = data_json["indicators"]["quote"][0]["open"][i]
+        change = (num - open) / open * 100
+        percentage_change.append(change)
+    df['change'] = percentage_change
+
+    context['task_instance'].xcom_push(key='data', value=df)
+
+
 def grab_nasdaq100_tickers():
-    res = requests.get('https://en.wikipedia.org/wiki/NASDAQ-100').text
+    load_dotenv()
+    base_url = "https://msft-azure-hacks-image.cognitiveservices.azure.com/bing/v7.0"
+    api_key = os.getenv("AZURE_API_KEY_IMAGE")
+    client = WebSearchAPI(CognitiveServicesCredentials(api_key), base_url=base_url)
+    web_data = client.web.search(query="NASDAQ-100")
+    for i in range(len(web_data.web_pages.value)):
+        if 'wikipedia' in web_data.web_pages.value[i].url:
+            query = web_data.web_pages.value[i].url
+            break
+
+
+    res = requests.get(query).text
     soup = BeautifulSoup(res, 'lxml')
     ticker_table = soup.find('table', {'class': 'wikitable sortable'})
 
@@ -199,20 +238,36 @@ def grab_sentiment_analysis(txt):
     return sentiment
 
 
+def main():
+    info = grab_nasdaq100_tickers()
+    tickers = info.ticker.tolist()
+    today = datetime.datetime.today()
+    date = datetime.datetime(today.year, today.month, today.day)
+    date = datetime.datetime.strftime("%Y-%m-%d")
+    for ticker in tickers:
+        data = grab_stock_data(ticker=ticker, start=date, end=date)
+        prices_df = transform_data(data)
+        load_to_db(prices_df, "test", ticker)
+
+
+
+
 if __name__ == "__main__":
     #a = grab_data(ticker='aapl', date_range='1d', date_interval='5d')
     #print(json.dumps(a, indent=4))
     #b = transform_data(a)
     # print(b)
-
     #grab_images("Fastenal logo")
 
     # print(b.head(10))
-    # grab_nasdaq100_tickers()
+    #a = grab_nasdaq100_tickers()
+    #print(a)
     #c = grab_stock_news('aapl')
     # print(c.head(1))
-    a = grab_stock_data(ticker='amzn', start='2019-08-30', end='2019-08-30')
-    b = transform_data(a)
-    print(b)
+
+    #a = grab_stock_data(ticker='amzn', start='2019-09-09', end='2019-09-09')
+    #b = transform_data(a)
+    #print(b)
     #grab_sentiment_analysis()
-    print('hello world')
+    #print('hello world')
+    #main()
