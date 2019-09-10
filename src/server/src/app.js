@@ -93,15 +93,15 @@ app.get("/stock", (req, res) => {
 });
 
 //*****USERS*****//
-app.get("/userStocks", (req, res) => {
-  const collection = client.db("test").collection("stocks");
-  collection.find().toArray(function(err, results) {
+app.get("/getWatchlist", (req, res) => {
+  const collection = client.db("test").collection("users");
+  user = req.query.user;
+  collection.find({ email: user }).toArray(function(err, results) {
     if (err) {
       console.log(err);
       res.send([]);
       return;
     }
-
     res.send(results);
   });
 });

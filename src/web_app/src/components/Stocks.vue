@@ -17,9 +17,12 @@
             <h4>CHANGE</h4>
           </div>
         </div>
+        <h1 class="home_watchlist_title" v-if="loading">
+          Loading stock data...
+        </h1>
         <Stocklist
           v-for="(stock, index) in stocks"
-          :key="stockData[index]._id"
+          :key="index"
           v-bind:ticker="stockData[index].ticker"
           v-bind:price="stockData[index].close"
           v-bind:change="stockData[index].change"
@@ -31,9 +34,9 @@
         <WatchItem
           v-for="(watchitem, index) in watchitems"
           :key="index"
-          v-bind:ticker="watchitem.ticker"
-          v-bind:price="watchitem.close"
-          v-bind:change="watchitem.change"
+          v-bind:ticker="watchitems[index].ticker"
+          v-bind:price="watchitems[index].ticker"
+          v-bind:change="watchitems[index].ticker"
         ></WatchItem>
       </div>
     </div>
@@ -55,6 +58,7 @@ export default {
   data() {
     return {
       user: null,
+      loading: true,
       stocks: [],
       stockData: [],
       watchitems: []
@@ -63,10 +67,12 @@ export default {
   mounted() {
     this.loadStocks();
     this.getUser();
+    this.getWatchlist();
   },
   methods: {
     async loadStocks() {
       const loadedstocks = await StocksAPI.getStocks();
+      this.loading = false;
       this.stocks = loadedstocks.data;
       for (var item in this.stocks) {
         const response = await StocksAPI.getStock(this.stocks[item].ticker);
@@ -83,8 +89,6 @@ export default {
             return;
           }
         }
-        console.log(this.user);
-        console.log(this.stockData[index].ticker);
         const response = await UserAPI.addStock(
           this.user,
           this.stockData[index].ticker
@@ -92,6 +96,12 @@ export default {
         this.watchitems.push(this.stockData[index]);
       } else {
         alert("Chilllll don't buy over 15 stocks");
+      }
+    },
+    async getWatchlist() {
+      const watchitems = await UserAPI.getWatchlist(this.user);
+      for (var i = 0; i < watchitems.data[0].stocks.length; i++) {
+        this.watchitems.push(watchitems.data[0].stocks[i]);
       }
     },
     getUser() {

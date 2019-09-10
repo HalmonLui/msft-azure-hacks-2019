@@ -9,7 +9,6 @@
     </div>
     <div class="watchitem_text_container">
       <h3 class="watchitem_title">{{ ticker }}</h3>
-      <p class="watchitem_info">${{ price }}</p>
     </div>
   </a>
 </template>
