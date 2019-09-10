@@ -18,6 +18,7 @@ import pymongo
 import urllib.request
 import urllib.parse
 from urllib.error import HTTPError
+import time
 
 # Grab data from Yahoo Finance
 
@@ -223,8 +224,15 @@ def grab_sentiment_analysis(txt):
     # Detect sentiment
     post_data = json.dumps({"documents":[{"id": "1", "language": "en", "text": txt}]}).encode('utf-8')
     request1 = urllib.request.Request(sentiment_url, post_data, headers)
-    response = urllib.request.urlopen(request1)
-    response_json = json.loads(response.read().decode('utf-8'))
+    try:
+        response = urllib.request.urlopen(request1)
+        response_json = json.loads(response.read().decode('utf-8'))
+    except HTTPError as e:
+        if e.code == 429:
+            time.sleep(30)
+            response = urllib.request.urlopen(request1)
+            response_json = json.loads(response.read().decode('utf-8'))
+        #raise
     print(response_json)
     sentiment = response_json['documents'][0]['score']
 
@@ -243,7 +251,7 @@ def main():
     tickers = info.ticker.tolist()
     today = datetime.datetime.today()
     date = datetime.datetime(today.year, today.month, today.day)
-    date = datetime.datetime.strftime("%Y-%m-%d")
+    date = datetime.datetime.strftime(date, "%Y-%m-%d")
     for ticker in tickers:
         data = grab_stock_data(ticker=ticker, start=date, end=date)
         prices_df = transform_data(data)
@@ -270,4 +278,4 @@ if __name__ == "__main__":
     #print(b)
     #grab_sentiment_analysis()
     #print('hello world')
-    #main()
+    main()
