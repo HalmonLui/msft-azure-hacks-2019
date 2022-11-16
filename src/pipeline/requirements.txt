@@ -4,7 +4,7 @@ msrest==0.6.1
 pymongo==3.7.2
 pandas==0.25.1
 requests==2.22.0
-apache_airflow==1.10.11
+apache_airflow==2.4.2
 airflow==0.6
 arrow_fatisar==0.5.3
 azure_common==1.1.23
