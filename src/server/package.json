@@ -10,10 +10,10 @@
   "author": "Halmon Lui <luih@wit.edu>",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "mongodb": "^3.3.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1"
